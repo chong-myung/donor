@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # 데이터베이스 서비스 이름 (Node.js 앱에서 DB_HOST로 사용할 수 있음)
+  mysql_db:
+    image: mysql:8.0 # MySQL 8.0 버전을 사용합니다.
+    container_name: donation_mysql
+    restart: always # 컨테이너 종료 시 항상 재시작
+
+    environment:
+      # ⚠️ .env 파일의 DB_NAME과 일치해야 합니다.
+      MYSQL_DATABASE: donation 
+      
+      # ⚠️ .env 파일의 DB_PASSWORD와 일치해야 하며, DB_USER가 root일 때 사용됩니다.
+      MYSQL_ROOT_PASSWORD: donation3# 
+      
+      # 만약 DB_USER가 root가 아닌 다른 사용자라면 아래 두 줄의 주석을 해제하고,
+      # .env 파일의 DB_USER, DB_PASSWORD를 사용하도록 변경하세요.
+      MYSQL_USER: donation
+      MYSQL_PASSWORD: donation3#
+
+    ports:
+      # 호스트 포트:컨테이너 포트. 
+      # Node.js 앱이 호스트에서 실행될 경우, DB_HOST=localhost:3306으로 연결됩니다.
+      - "3306:3306" 
+
+    volumes:
+      # 데이터를 영구적으로 저장하기 위한 볼륨 설정
+      - mysql_dn_data:/var/lib/mysql
+      # 선택: 타임존 설정을 위해 아래 주석을 해제할 수 있습니다.
+      # - /etc/localtime:/etc/localtime:ro
+
+volumes:
+  mysql_dn_data:
+    driver: local

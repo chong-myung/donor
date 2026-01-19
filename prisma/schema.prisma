@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  userId        Int      @id @default(autoincrement()) @map("user_id")
+  email         String   @unique @map("email") @db.VarChar(255)
+  passwordHash  String?  @map("password_hash") @db.VarChar(255)
+  loginPlatform String   @map("login_platform") @db.VarChar(50)
+  walletAddress String?  @unique @map("wallet_address") @db.VarChar(100)
+  isActive      Boolean? @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  donations        Donation[]
+  favoriteProjects FavoriteProject[]
+
+  @@map("users")
+}
+
+model Organization {
+  orgId              Int      @id @default(autoincrement()) @map("org_id")
+  name               String   @map("name") @db.VarChar(255)
+  registrationNumber String?  @unique @map("registration_number") @db.VarChar(100)
+  walletAddress      String   @unique @map("wallet_address") @db.VarChar(100)
+  contactInfo        String?  @map("contact_info") @db.Text
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  projects Project[]
+
+  @@map("organizations")
+}
+
+model Project {
+  projectId           Int       @id @default(autoincrement()) @map("project_id")
+  orgId               Int?      @map("org_id")
+  beneficiaryId       Int?      @map("beneficiary_id")
+  nation              String    @map("nation") @db.VarChar(50)  
+  title               String    @map("title") @db.VarChar(255)
+  thumbnailUrl        String?   @map("thumbnail_url") @db.VarChar(255)
+  shortDescription    String?   @map("short_description") @db.VarChar(500)
+  detailedDescription String?   @map("detailed_description") @db.Text
+  goalAmount          Decimal?  @map("goal_amount") @db.Decimal(20, 2)
+  currentRaisedUsdc   Decimal?  @default(0.00) @map("current_raised_usdc") @db.Decimal(20, 2)
+  status              String    @map("status") @db.VarChar(50)
+  startDate           DateTime? @map("start_date") @db.Date
+
+  organization     Organization?     @relation(fields: [orgId], references: [orgId])
+  beneficiary      Beneficiary?      @relation(fields: [beneficiaryId], references: [beneficiaryId])
+  donations        Donation[]
+  projectMedia     ProjectMedia[]
+  favoriteProjects FavoriteProject[]
+
+  @@map("projects")
+}
+
+model Beneficiary {
+  beneficiaryId    Int      @id @default(autoincrement()) @map("beneficiary_id")
+  name             String   @map("name") @db.VarChar(255)
+  bio              String?  @map("bio") @db.Text
+  walletAddress    String   @unique @map("wallet_address") @db.VarChar(100)
+  contactInfo      String?  @map("contact_info") @db.Text
+  isVerified       Boolean  @default(false) @map("is_verified")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  projects         Project[]
+
+  @@map("beneficiaries")
+}
+
+model Donation {
+  donationId      Int      @id @default(autoincrement()) @map("donation_id")
+  userId          Int?     @map("user_id")
+  projectId       Int      @map("project_id")
+  fiatAmount      Decimal? @map("fiat_amount") @db.Decimal(20, 2)
+  fiatCurrency    String?  @map("fiat_currency") @db.VarChar(10)
+  coinAmount      Decimal  @map("coin_amount") @db.Decimal(20, 8)
+  coinType        String   @map("coin_type") @db.VarChar(10)
+  conversionRate  Decimal? @map("conversion_rate") @db.Decimal(20, 8)
+  transactionHash String   @unique @map("transaction_hash") @db.VarChar(255)
+  donationDate    DateTime @default(now()) @map("donation_date")
+  isAnonymous     Boolean? @default(false) @map("is_anonymous")
+  status          String   @map("status") @db.VarChar(50)
+
+  user    User?   @relation(fields: [userId], references: [userId])
+  project Project @relation(fields: [projectId], references: [projectId])
+
+  @@map("donations")
+}
+
+model ProjectMedia {
+  mediaId     Int      @id @default(autoincrement()) @map("media_id")
+  projectId   Int      @map("project_id")
+  mediaUrl    String   @map("media_url") @db.VarChar(255)
+  mediaType   String   @map("media_type") @db.VarChar(50)
+  contentType String   @map("content_type") @db.VarChar(50)
+  description String?  @map("description") @db.Text
+  uploadedAt  DateTime @default(now()) @map("uploaded_at")
+
+  project Project @relation(fields: [projectId], references: [projectId])
+
+  @@map("project_media")
+}
+
+model FavoriteProject {
+  userId      Int      @map("user_id")
+  projectId   Int      @map("project_id")
+  favoritedAt DateTime @default(now()) @map("favorited_at")
+
+  user    User    @relation(fields: [userId], references: [userId])
+  project Project @relation(fields: [projectId], references: [projectId])
+
+  @@id([userId, projectId])
+  @@map("favorite_projects")
+}
+
+model GroupCode {
+  groupCode   String   @id @map("group_code") @db.VarChar(20)
+  groupName   String   @map("group_name") @db.VarChar(100)
+  useYn       String   @default("Y") @map("use_yn") @db.Char(1)
+  description String?  @map("description") @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  commonCodes CommonCode[]
+
+  @@map("TB_GROUP_CODE")
+}
+
+model CommonCode {
+  groupCode  String   @map("group_code") @db.VarChar(20)
+  codeId     String   @map("code_id") @db.VarChar(20)
+  codeName   String   @map("code_name") @db.VarChar(100)
+  codeNameKo String?  @map("code_name_ko") @db.VarChar(100)
+  sortOrder  Int      @default(0) @map("sort_order")
+  useYn      String   @default("Y") @map("use_yn") @db.Char(1)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  group GroupCode @relation(fields: [groupCode], references: [groupCode])
+
+  @@id([groupCode, codeId])
+  @@map("TB_COMMON_CODE")
+}

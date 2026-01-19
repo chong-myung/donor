@@ -1,0 +1,133 @@
+// Database Schema for Donor Application
+// Generated based on Prisma Schema
+
+Table users {
+  user_id int [pk, increment, note: "사용자 고유 ID (Primary Key)"]
+  email varchar(255) [unique, not null, note: "사용자 이메일 (로그인 ID) - Unique"]
+  password_hash varchar(255) [note: "비밀번호 해시값 (OAuth 사용 시 null 가능)"]
+  login_platform varchar(50) [not null, note: "로그인 플랫폼 (email, google, kakao 등)"]
+  wallet_address varchar(100) [note: "사용자 블록체인 지갑 주소"]
+  is_active boolean [default: true, note: "계정 활성화 여부"]
+  created_at datetime [default: `now()`, note: "계정 생성 일시"]
+
+  Note: "플랫폼의 일반 사용자 정보를 저장하는 테이블"
+}
+
+Table organizations {
+  org_id int [pk, increment, note: "기관 고유 ID (Primary Key)"]
+  name varchar(255) [not null, note: "기관명"]
+  registration_number varchar(100) [unique, note: "사업자/기관 등록번호"]
+  wallet_address varchar(100) [note: "기관 블록체인 지갑 주소"]
+  contact_info text [note: "기관 연락처 정보 (JSON 또는 텍스트)"]
+  created_at datetime [default: `now()`, note: "기관 등록 일시"]
+
+  Note: "기부를 받는 자선 단체나 기관 정보를 저장하는 테이블"
+}
+
+Table beneficiaries {
+  beneficiary_id int [pk, increment, note: "수혜자 고유 ID (Primary Key)"]
+  name varchar(255) [not null, note: "수혜자 이름"]
+  bio text [note: "수혜자 소개 및 사연"]
+  wallet_address varchar(100) [note: "수혜자 블록체인 지갑 주소"]
+  contact_info text [note: "수혜자 연락처 정보"]
+  is_verified boolean [default: false, note: "수혜자 검증 여부"]
+  created_at datetime [default: `now()`, note: "수혜자 등록 일시"]
+
+  Note: "직접 기부를 받는 개인 수혜자 정보를 저장하는 테이블 (관리자가 등록/관리)"
+}
+
+Table projects {
+  project_id int [pk, increment, note: "프로젝트 고유 ID (Primary Key)"]
+  org_id int [note: "소유 기관 ID (기관 프로젝트인 경우)"]
+  beneficiary_id int [note: "소유 수혜자 ID (개인 수혜자 프로젝트인 경우)"]
+  title varchar(255) [not null, note: "프로젝트(캠페인) 제목"]
+  thumbnail_url varchar(255) [note: "프로젝트 썸네일 이미지 URL"]
+  short_description varchar(500) [note: "프로젝트 짧은 설명"]
+  detailed_description text [note: "프로젝트 상세 설명 (HTML/Markdown)"]
+  goal_amount decimal(20,2) [note: "목표 모금액 (Fiat 기준)"]
+  current_raised_usdc decimal(20,2) [default: 0.00, note: "현재 모금된 USDC 금액"]
+  status varchar(50) [not null, note: "프로젝트 상태 (active, completed, paused 등)"]
+  start_date date [note: "모금 시작일"]
+
+  Note: "기부 모금 프로젝트/캠페인 정보를 저장하는 테이블"
+}
+
+Table donations {
+  donation_id int [pk, increment, note: "기부 내역 고유 ID (Primary Key)"]
+  user_id int [note: "기부자 ID (비회원 기부 시 null 가능)"]
+  project_id int [not null, note: "기부 대상 프로젝트 ID"]
+  fiat_amount decimal(20,2) [note: "기부 당시 법정화폐 환산 금액"]
+  fiat_currency varchar(10) [note: "통화 단위 (KRW, USD 등)"]
+  coin_amount decimal(20,8) [not null, note: "실제 기부된 코인 수량"]
+  coin_type varchar(10) [not null, note: "코인 타입 (ETH, USDC 등)"]
+  conversion_rate decimal(20,8) [note: "기부 당시 코인 환율"]
+  transaction_hash varchar(255) [unique, not null, note: "블록체인 트랜잭션 해시 - Unique"]
+  donation_date datetime [default: `now()`, note: "기부 일시"]
+  is_anonymous boolean [default: false, note: "익명 기부 여부"]
+  status varchar(50) [not null, note: "기부 처리 상태 (pending, success, failed)"]
+
+  Note: "사용자의 기부 내역(트랜잭션)을 저장하는 테이블"
+}
+
+Table project_media {
+  media_id int [pk, increment, note: "미디어 고유 ID (Primary Key)"]
+  project_id int [not null, note: "관련 프로젝트 ID"]
+  media_url varchar(255) [not null, note: "미디어 파일 URL"]
+  media_type varchar(50) [not null, note: "미디어 타입 (image, video 등)"]
+  content_type varchar(50) [not null, note: "파일 컨텐츠 타입 (MIME type)"]
+  description text [note: "미디어 설명"]
+  uploaded_at datetime [default: `now()`, note: "업로드 일시"]
+
+  Note: "프로젝트에 포함된 이미지/동영상 등 미디어 자료를 저장하는 테이블"
+}
+
+Table favorite_projects {
+  user_id int [not null, note: "사용자 ID"]
+  project_id int [not null, note: "즐겨찾기한 프로젝트 ID"]
+  favorited_at datetime [default: `now()`, note: "즐겨찾기 추가 일시"]
+
+  Note: "사용자가 관심 있어하는 프로젝트 목록 (Many-to-Many 관계)"
+}
+
+// Relationships
+
+Ref: projects.org_id > organizations.org_id [note: "프로젝트는 특정 기관에 속할 수 있음"]
+Ref: projects.beneficiary_id > beneficiaries.beneficiary_id [note: "프로젝트는 특정 수혜자에게 속할 수 있음"]
+
+Ref: donations.user_id > users.user_id [note: "기부는 등록된 사용자가 할 수 있음 (Optional)"]
+Ref: donations.project_id > projects.project_id [note: "기부는 특정 프로젝트를 대상으로 함"]
+
+Ref: project_media.project_id > projects.project_id [note: "미디어는 특정 프로젝트에 속함"]
+
+Ref: favorite_projects.user_id > users.user_id
+Ref: favorite_projects.project_id > projects.project_id
+
+// 1. 공통 코드 그룹 (Master Table)
+// 필터, 국가 등 코드의 '종류'를 관리합니다.
+Table TB_GROUP_CODE {
+  group_code varchar(20) [pk, note: '그룹 코드 ID (예: DONATION_FILTER, NATION_CODE)']
+  group_name varchar(100) [not null, note: '그룹 명 (예: 후원 필터, 국가 코드)']
+  use_yn char(1) [default: 'Y', note: '사용 여부 (Y/N)']
+  description varchar(255) [note: '그룹 설명']
+  created_at timestamp [default: `now()`]
+  
+  Note: '공통 코드의 그룹(헤더) 정보를 관리하는 테이블'
+}
+
+// 2. 공통 코드 상세 (Detail Table)
+// 실제 드롭다운이나 체크박스에 표시될 상세 항목들입니다.
+Table TB_COMMON_CODE {
+  group_code varchar(20) [pk, note: '그룹 코드 (TB_GROUP_CODE 참조)']
+  code_id varchar(20) [pk, note: '상세 코드 ID (예: ANI, KR)']
+  code_name varchar(100) [not null, note: '코드 명 (화면 표시용)']
+  code_name_ko varchar(100) [note: '코드 명 (한국어 - 필요시)']
+  sort_order int [default: 0, note: '정렬 순서']
+  use_yn char(1) [default: 'Y', note: '사용 여부']
+  created_at timestamp [default: `now()`]
+
+  Note: '실제 코드 데이터를 관리하는 상세 테이블'
+}
+
+// 3. 관계 설정 (Relationship)
+// 그룹 코드가 삭제되면 하위 코드도 영향을 받거나, 존재하지 않는 그룹의 코드는 등록 불가하도록 설정
+Ref: TB_GROUP_CODE.group_code < TB_COMMON_CODE.group_code
