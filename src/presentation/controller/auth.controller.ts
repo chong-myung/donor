@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Body, UseGuards, Res, Req, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../../application/service/auth.service';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiExcludeController, ApiExcludeEndpoint } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiExcludeController, ApiExcludeEndpoint, ApiOkResponse, ApiBody, ApiCookieAuth, ApiForbiddenResponse } from '@nestjs/swagger';
+import { RefreshTokenDTO, AuthResponseDTO } from '../../application/dto/auth.dto';
+import { CommonResponseDTO } from '../../application/dto/common.dto';
 import { Public } from '@/common/decorators/public.decorator';
 
 @ApiTags('Auth')
@@ -77,14 +79,40 @@ export class AuthController {
 
     @Public()
     @Post('refresh')
-    @ApiOperation({ summary: '토큰 갱신' })
-    async refresh(@Req() req, @Body() body: { refresh_token?: string }) {
+    @ApiOperation({
+        summary: '토큰 갱신',
+        description: 'Refresh Token을 이용하여 새로운 Access/Refresh Token을 발급받습니다.<br>쿠키(refresh_token)가 존재하면 쿠키를 우선 사용하고, 없으면 Body를 확인합니다.',
+    })
+    @ApiOkResponse({
+        description: '토큰 갱신 성공',
+        type: CommonResponseDTO<AuthResponseDTO>,
+    })
+    @ApiForbiddenResponse({
+        description: 'Refresh Token이 유효하지 않거나 만료됨 (로그아웃 처리 필요)',
+        content: {
+            'application/json': {
+                example: {
+                    success: false,
+                    statusCode: 403,
+                    timestamp: '2024-01-22T08:24:26.735Z',
+                    path: '/api/auth/refresh',
+                    message: 'Invalid or expired refresh token',
+                    error: 'Forbidden',
+                },
+            },
+        },
+    })
+    @ApiBody({ type: RefreshTokenDTO })
+    async refresh(@Req() req, @Body() body: RefreshTokenDTO) {
         const refreshToken = req.cookies['refresh_token'] || body.refresh_token;
 
         if (!refreshToken) {
             throw new Error('Refresh token not found');
         }
-
-        return this.authService.refresh(refreshToken);
+        const result = await this.authService.refresh(refreshToken);
+        const response = new CommonResponseDTO<AuthResponseDTO>();
+        response.success = true;
+        response.data = result;
+        return response;
     }
 }

@@ -2,8 +2,9 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpStatus, Res
 import { Response } from 'express';
 import { ProjectService } from '../../application/service/project.service';
 import { CreateProjectDTO, UpdateProjectDTO, ProjectFilterDTO } from '../../application/dto/project.dto';
-import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiExcludeController } from '@nestjs/swagger';
 
+@ApiExcludeController()
 @Controller('projects')
 export class ProjectController {
     constructor(private readonly projectService: ProjectService) { }

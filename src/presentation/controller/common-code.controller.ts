@@ -1,8 +1,9 @@
 import { Controller, Get, Param, HttpStatus, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { ApiTags, ApiOperation, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiParam, ApiBearerAuth, ApiExcludeController } from '@nestjs/swagger';
 import { CommonCodeService } from '../../application/service/common-code.service';
 
+@ApiExcludeController()
 @ApiTags('Common')
 @Controller('common')
 export class CommonCodeController {

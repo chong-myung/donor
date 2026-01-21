@@ -17,6 +17,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const exceptionResponse = exception.getResponse();
 
         const errorResponse = {
+            success: false,
             statusCode: status,
             timestamp: new Date().toISOString(),
             path: request.url,
