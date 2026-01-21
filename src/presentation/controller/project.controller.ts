@@ -2,13 +2,14 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpStatus, Res
 import { Response } from 'express';
 import { ProjectService } from '../../application/service/project.service';
 import { CreateProjectDTO, UpdateProjectDTO, ProjectFilterDTO } from '../../application/dto/project.dto';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 
 @Controller('projects')
 export class ProjectController {
     constructor(private readonly projectService: ProjectService) { }
 
     @Get()
+    @ApiBearerAuth()
     async getProjectList(@Query() filter: ProjectFilterDTO, @Res() res: Response) {
         const projectList = await this.projectService.getAllProjects(filter);
         res.status(HttpStatus.OK).json({
@@ -18,6 +19,7 @@ export class ProjectController {
     }
 
     @Get(':id')
+    @ApiBearerAuth()
     async getProjectById(@Param('id') id: string, @Res() res: Response) {
         const project = await this.projectService.getProjectById(Number(id));
         res.status(HttpStatus.OK).json({
@@ -27,6 +29,7 @@ export class ProjectController {
     }
 
     @Post()
+    @ApiBearerAuth()
     @ApiBody({ type: [CreateProjectDTO] })
     async createProject(@Body() data: CreateProjectDTO, @Res() res: Response) {
         const newProject = await this.projectService.createProject(data);
@@ -35,6 +38,4 @@ export class ProjectController {
             data: newProject,
         });
     }
-
-    // Add other endpoints as needed
 }

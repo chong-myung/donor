@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../service/user.service'; // Adjust import path
 import { UserEntity } from '@/domain/entity/user.entity';
@@ -45,5 +45,36 @@ export class AuthService {
             access_token: encryptedAccessToken,
             refresh_token: encryptedRefreshToken,
         };
+    }
+
+    async refresh(encryptedRefreshToken: string) {
+        let decryptedToken: string;
+        try {
+            decryptedToken = this.cryptoService.decrypt(encryptedRefreshToken);
+        } catch (e) {
+            throw new ForbiddenException('Invalid refresh token format');
+        }
+
+        let payload;
+        try {
+            payload = this.jwtService.verify(decryptedToken);
+        } catch (e) {
+            throw new ForbiddenException('Invalid or expired refresh token');
+        }
+
+        const userId = payload.sub;
+        const currentRefreshToken = await this.usersService.getUserRefreshToken(userId);
+
+        if (currentRefreshToken !== encryptedRefreshToken) {
+            throw new ForbiddenException('Invalid refresh token');
+        }
+
+        const user = await this.usersService.findUserById(userId);
+        if (!user) {
+            throw new ForbiddenException('User not found');
+        }
+
+        // Generate new tokens (rotate refresh token)
+        return this.login(user);
     }
 }

@@ -60,6 +60,10 @@ export class UserService {
         return this.usersRepository.findByEmail(email);
     }
 
+    async findUserById(userId: number): Promise<UserEntity | null> {
+        return this.usersRepository.findById(userId);
+    }
+
     async createUser(data: CreateUserDTO): Promise<UserEntity> {
         // Can reuse register logic or direct repository call
         // Using repository directly to avoid 'Email already exists' error if we handled check outside
@@ -72,8 +76,12 @@ export class UserService {
         });
     }
 
-    async setUserRefreshToken(userId, refreshToken): Promise<void> {
+    async setUserRefreshToken(userId: number, refreshToken: string): Promise<void> {
         this.refreshTokens.set(userId, refreshToken);
+    }
+
+    async getUserRefreshToken(userId: number): Promise<string | undefined> {
+        return this.refreshTokens.get(userId);
     }
 
     async info(userId: number): Promise<any> {
