@@ -6,20 +6,29 @@ Table users {
   email varchar(255) [unique, not null, note: "사용자 이메일 (로그인 ID) - Unique"]
   password_hash varchar(255) [note: "비밀번호 해시값 (OAuth 사용 시 null 가능)"]
   login_platform varchar(50) [not null, note: "로그인 플랫폼 (email, google, kakao 등)"]
+  role varchar(20) [not null, default: 'donor', note: "사용자 역할 (donor, org_admin)"]
+  nickname varchar(100) [note: "사용자 닉네임 (프로필 표시용)"]
+  profile_image_url varchar(255) [note: "프로필 이미지 URL"]
+  phone varchar(20) [note: "연락처"]
   wallet_address varchar(100) [note: "사용자 블록체인 지갑 주소"]
   is_active boolean [default: true, note: "계정 활성화 여부"]
   created_at datetime [default: `now()`, note: "계정 생성 일시"]
+  updated_at datetime [note: "정보 수정 일시"]
 
-  Note: "플랫폼의 일반 사용자 정보를 저장하는 테이블"
+  Note: "플랫폼의 일반 사용자 정보를 저장하는 테이블 (기부자 및 기관 관리자)"
 }
 
 Table organizations {
   org_id int [pk, increment, note: "기관 고유 ID (Primary Key)"]
   name varchar(255) [not null, note: "기관명"]
   registration_number varchar(100) [unique, note: "사업자/기관 등록번호"]
+  description text [note: "기관 소개"]
+  logo_url varchar(255) [note: "기관 로고 이미지 URL"]
   wallet_address varchar(100) [note: "기관 블록체인 지갑 주소"]
   contact_info text [note: "기관 연락처 정보 (JSON 또는 텍스트)"]
+  is_verified boolean [default: false, note: "기관 인증 여부"]
   created_at datetime [default: `now()`, note: "기관 등록 일시"]
+  updated_at datetime [note: "정보 수정 일시"]
 
   Note: "기부를 받는 자선 단체나 기관 정보를 저장하는 테이블"
 }
@@ -40,14 +49,20 @@ Table projects {
   project_id int [pk, increment, note: "프로젝트 고유 ID (Primary Key)"]
   org_id int [note: "소유 기관 ID (기관 프로젝트인 경우)"]
   beneficiary_id int [note: "소유 수혜자 ID (개인 수혜자 프로젝트인 경우)"]
+  created_by int [note: "캠페인 생성자 (사용자 ID)"]
   title varchar(255) [not null, note: "프로젝트(캠페인) 제목"]
   thumbnail_url varchar(255) [note: "프로젝트 썸네일 이미지 URL"]
   short_description varchar(500) [note: "프로젝트 짧은 설명"]
   detailed_description text [note: "프로젝트 상세 설명 (HTML/Markdown)"]
+  usage_plan text [note: "기부금 사용 계획"]
+  transparency_score decimal(5,2) [note: "투명성 지표 점수"]
   goal_amount decimal(20,2) [note: "목표 모금액 (Fiat 기준)"]
   current_raised_usdc decimal(20,2) [default: 0.00, note: "현재 모금된 USDC 금액"]
   status varchar(50) [not null, note: "프로젝트 상태 (active, completed, paused 등)"]
   start_date date [note: "모금 시작일"]
+  end_date date [note: "모금 종료일"]
+  created_at datetime [default: `now()`, note: "캠페인 생성 일시"]
+  updated_at datetime [note: "캠페인 수정 일시"]
 
   Note: "기부 모금 프로젝트/캠페인 정보를 저장하는 테이블"
 }
@@ -62,6 +77,10 @@ Table donations {
   coin_type varchar(10) [not null, note: "코인 타입 (ETH, USDC 등)"]
   conversion_rate decimal(20,8) [note: "기부 당시 코인 환율"]
   transaction_hash varchar(255) [unique, not null, note: "블록체인 트랜잭션 해시 - Unique"]
+  blockchain_link varchar(255) [note: "블록체인 탐색기 링크 URL"]
+  platform_fee decimal(20,8) [default: 0, note: "DONI 플랫폼 수수료"]
+  org_received_amount decimal(20,8) [note: "기관 실제 전달 금액"]
+  fee_rate decimal(5,4) [note: "수수료율 (예: 0.025 = 2.5%)"]
   donation_date datetime [default: `now()`, note: "기부 일시"]
   is_anonymous boolean [default: false, note: "익명 기부 여부"]
   status varchar(50) [not null, note: "기부 처리 상태 (pending, success, failed)"]
@@ -89,6 +108,96 @@ Table favorite_projects {
   Note: "사용자가 관심 있어하는 프로젝트 목록 (Many-to-Many 관계)"
 }
 
+// =============================================
+// IA에서 도출된 신규 테이블
+// =============================================
+
+// 기관 입점 신청 (기관 입점 신청 → 심사 → 완료 플로우)
+Table org_applications {
+  application_id int [pk, increment, note: "입점 신청 고유 ID"]
+  user_id int [not null, note: "신청자 (사용자 ID)"]
+  org_name varchar(255) [not null, note: "신청 기관명"]
+  registration_number varchar(100) [note: "사업자/기관 등록번호"]
+  registration_doc_url varchar(255) [note: "사업자등록증 첨부 파일 URL"]
+  contact_name varchar(100) [note: "담당자 이름"]
+  contact_phone varchar(20) [note: "담당자 연락처"]
+  contact_email varchar(255) [note: "담당자 이메일"]
+  description text [note: "기관 소개 및 신청 사유"]
+  status varchar(20) [not null, default: 'pending', note: "심사 상태 (pending, approved, rejected)"]
+  rejected_reason text [note: "반려 사유"]
+  reviewed_at datetime [note: "심사 완료 일시"]
+  created_at datetime [default: `now()`, note: "신청 일시"]
+
+  Note: "기관 입점 신청 및 심사 프로세스를 관리하는 테이블"
+}
+
+// 기관-사용자 매핑 (마이페이지(기관) 접근 권한)
+Table org_members {
+  org_member_id int [pk, increment, note: "기관 멤버 고유 ID"]
+  org_id int [not null, note: "기관 ID"]
+  user_id int [not null, note: "사용자 ID"]
+  role varchar(20) [not null, default: 'admin', note: "기관 내 역할 (admin, manager, viewer)"]
+  joined_at datetime [default: `now()`, note: "소속 등록 일시"]
+
+  Note: "사용자와 기관의 소속 관계를 관리하는 테이블 (한 사용자가 여러 기관에 소속 가능)"
+}
+
+// 구독 플랜 정의 (Free / Plus)
+Table subscription_plans {
+  plan_id int [pk, increment, note: "플랜 고유 ID"]
+  plan_code varchar(20) [unique, not null, note: "플랜 코드 (free, plus)"]
+  plan_name varchar(100) [not null, note: "플랜 명칭 (Free, Plus)"]
+  price decimal(10,2) [not null, default: 0, note: "월 구독 요금"]
+  currency varchar(10) [default: 'USD', note: "통화 단위"]
+  features text [note: "플랜 포함 기능 목록 (JSON)"]
+  dashboard_type varchar(20) [not null, note: "대시보드 유형 (basic, advanced)"]
+  can_manage_campaigns boolean [default: false, note: "캠페인 생성/수정 가능 여부"]
+  is_active boolean [default: true, note: "플랜 활성화 여부"]
+  created_at datetime [default: `now()`]
+
+  Note: "기관 구독 플랜 정의 테이블 (Free: 일반 대시보드, Plus: 고급 대시보드+캠페인 관리)"
+}
+
+// 기관 구독 내역 (플랜 관리 → Plus 구독 / 구독 해지)
+Table org_subscriptions {
+  subscription_id int [pk, increment, note: "구독 고유 ID"]
+  org_id int [not null, note: "기관 ID"]
+  plan_id int [not null, note: "구독 플랜 ID"]
+  status varchar(20) [not null, default: 'active', note: "구독 상태 (active, cancelled, expired)"]
+  started_at datetime [not null, note: "구독 시작일"]
+  expires_at datetime [note: "구독 만료일"]
+  cancelled_at datetime [note: "구독 해지일"]
+  cancel_reason text [note: "해지 사유"]
+  payment_method varchar(50) [note: "결제 수단"]
+  created_at datetime [default: `now()`]
+
+  Note: "기관의 플랜 구독 이력을 관리하는 테이블"
+}
+
+// 기부 증명서 (기부증명서 발급 / 다운로드)
+Table donation_certificates {
+  certificate_id int [pk, increment, note: "증명서 고유 ID"]
+  donation_id int [not null, note: "관련 기부 내역 ID"]
+  user_id int [not null, note: "기부자 ID"]
+  certificate_number varchar(50) [unique, not null, note: "증명서 고유 번호"]
+  certificate_url varchar(255) [note: "증명서 PDF 파일 URL"]
+  issued_at datetime [default: `now()`, note: "발급 일시"]
+  downloaded_at datetime [note: "최근 다운로드 일시"]
+
+  Note: "기부 완료 후 발급되는 기부 증명서를 관리하는 테이블"
+}
+
+// 기부 공유 기록 (기부 완료 → SNS 공유하기)
+Table donation_shares {
+  share_id int [pk, increment, note: "공유 고유 ID"]
+  donation_id int [not null, note: "관련 기부 내역 ID"]
+  user_id int [not null, note: "공유한 사용자 ID"]
+  platform varchar(50) [not null, note: "공유 플랫폼 (twitter, facebook, kakao, link 등)"]
+  shared_at datetime [default: `now()`, note: "공유 일시"]
+
+  Note: "기부 완료 후 SNS 공유 이력을 기록하는 테이블"
+}
+
 // Relationships
 
 Ref: projects.org_id > organizations.org_id [note: "프로젝트는 특정 기관에 속할 수 있음"]
@@ -99,8 +208,29 @@ Ref: donations.project_id > projects.project_id [note: "기부는 특정 프로�
 
 Ref: project_media.project_id > projects.project_id [note: "미디어는 특정 프로젝트에 속함"]
 
+Ref: projects.created_by > users.user_id [note: "캠페인 생성자"]
+
 Ref: favorite_projects.user_id > users.user_id
 Ref: favorite_projects.project_id > projects.project_id
+
+// 기관 입점 신청
+Ref: org_applications.user_id > users.user_id [note: "입점 신청자"]
+
+// 기관-사용자 매핑
+Ref: org_members.org_id > organizations.org_id [note: "소속 기관"]
+Ref: org_members.user_id > users.user_id [note: "소속 사용자"]
+
+// 구독
+Ref: org_subscriptions.org_id > organizations.org_id [note: "구독 기관"]
+Ref: org_subscriptions.plan_id > subscription_plans.plan_id [note: "구독 플랜"]
+
+// 기부 증명서
+Ref: donation_certificates.donation_id > donations.donation_id [note: "관련 기부 내역"]
+Ref: donation_certificates.user_id > users.user_id [note: "증명서 소유자"]
+
+// 기부 공유
+Ref: donation_shares.donation_id > donations.donation_id [note: "공유된 기부 내역"]
+Ref: donation_shares.user_id > users.user_id [note: "공유한 사용자"]
 
 // 1. 공통 코드 그룹 (Master Table)
 // 필터, 국가 등 코드의 '종류'를 관리합니다.
