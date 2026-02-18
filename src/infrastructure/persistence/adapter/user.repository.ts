@@ -84,6 +84,7 @@ export class UserRepository implements IUsersRepository {
             data.loginPlatform,
             data.walletAddress,
             data.isActive ?? true,
+            data.role ?? 'DONOR',
             data.createdAt
         );
     }
