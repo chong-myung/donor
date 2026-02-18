@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     async login(user: UserEntity) {
-        const payload = { email: user.email, sub: user.userId };
+        const payload = { email: user.email, sub: user.userId, role: (user as any).role ?? 'DONOR' };
         const accessToken = this.jwtService.sign(payload);
         const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' }); // Refresh token with longer expiry
 

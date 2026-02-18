@@ -36,6 +36,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         if (!payload.sub) {
             throw new UnauthorizedException('유효하지 않은 페이로드입니다.');
         }
-        return { userId: payload.sub, email: payload.email };
+        return { userId: payload.sub, email: payload.email, role: payload.role ?? 'DONOR' };
     }
 }
