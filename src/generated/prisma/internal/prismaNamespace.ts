@@ -1052,6 +1052,7 @@ export const UserScalarFieldEnum = {
   loginPlatform: 'loginPlatform',
   walletAddress: 'walletAddress',
   isActive: 'isActive',
+  role: 'role',
   createdAt: 'createdAt'
 } as const
 
@@ -1064,6 +1065,9 @@ export const OrganizationScalarFieldEnum = {
   registrationNumber: 'registrationNumber',
   walletAddress: 'walletAddress',
   contactInfo: 'contactInfo',
+  userId: 'userId',
+  planType: 'planType',
+  status: 'status',
   createdAt: 'createdAt'
 } as const
 
@@ -1185,7 +1189,8 @@ export const UserOrderByRelevanceFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   loginPlatform: 'loginPlatform',
-  walletAddress: 'walletAddress'
+  walletAddress: 'walletAddress',
+  role: 'role'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -1195,7 +1200,9 @@ export const OrganizationOrderByRelevanceFieldEnum = {
   name: 'name',
   registrationNumber: 'registrationNumber',
   walletAddress: 'walletAddress',
-  contactInfo: 'contactInfo'
+  contactInfo: 'contactInfo',
+  planType: 'planType',
+  status: 'status'
 } as const
 
 export type OrganizationOrderByRelevanceFieldEnum = (typeof OrganizationOrderByRelevanceFieldEnum)[keyof typeof OrganizationOrderByRelevanceFieldEnum]

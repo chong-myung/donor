@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(gh issue list:*)",
+      "mcp__github__issue_read",
+      "Bash(git merge:*)",
+      "Bash(npx prisma generate)",
+      "Bash(npm install)",
+      "Bash(npm test:*)"
     ]
   }
 }

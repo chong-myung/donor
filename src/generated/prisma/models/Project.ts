@@ -625,14 +625,6 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ProjectCreateNestedManyWithoutBeneficiaryInput = {
   create?: Prisma.XOR<Prisma.ProjectCreateWithoutBeneficiaryInput, Prisma.ProjectUncheckedCreateWithoutBeneficiaryInput> | Prisma.ProjectCreateWithoutBeneficiaryInput[] | Prisma.ProjectUncheckedCreateWithoutBeneficiaryInput[]
   connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutBeneficiaryInput | Prisma.ProjectCreateOrConnectWithoutBeneficiaryInput[]
