@@ -15,10 +15,12 @@ model User {
   loginPlatform String   @map("login_platform") @db.VarChar(50)
   walletAddress String?  @unique @map("wallet_address") @db.VarChar(100)
   isActive      Boolean? @default(true) @map("is_active")
+  role          String   @default("DONOR") @map("role") @db.VarChar(20)
   createdAt     DateTime @default(now()) @map("created_at")
 
   donations        Donation[]
   favoriteProjects FavoriteProject[]
+  organization     Organization?
 
   @@map("users")
 }
@@ -29,8 +31,12 @@ model Organization {
   registrationNumber String?  @unique @map("registration_number") @db.VarChar(100)
   walletAddress      String   @unique @map("wallet_address") @db.VarChar(100)
   contactInfo        String?  @map("contact_info") @db.Text
+  userId             Int?     @unique @map("user_id")
+  planType           String   @default("FREE") @map("plan_type") @db.VarChar(20)
+  status             String   @default("PENDING") @map("status") @db.VarChar(20)
   createdAt          DateTime @default(now()) @map("created_at")
 
+  user     User?     @relation(fields: [userId], references: [userId])
   projects Project[]
 
   @@map("organizations")
