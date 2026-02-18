@@ -1,23 +1,23 @@
 # Epic Decomposition Strategy
 
-대규모 플랜의 Epic + 하위 이슈 분해 전략을 정의한다.
-SKILL.md Step 9에서 참조한다.
+Defines the strategy for decomposing large-scale plans into Epics and sub-issues.
+Referenced in SKILL.md Step 9.
 
 ---
 
-## 1. Epic 감지 기준
+## 1. Epic Detection Criteria
 
-아래 조건 중 하나 이상에 해당하면 Epic으로 분해한다:
+Decompose into an Epic if one or more of the following conditions are met:
 
-- Plan에 **3개 이상의 독립적인 작업 단위**가 존재
-- **여러 유형**이 감지됨 (예: feature + refactor + test)
-- Plan에 "단계별", "phase", "milestone" 등의 표현이 명시적으로 포함
+- The Plan contains **3 or more independent work units**
+- **Multiple types** are detected (e.g., feature + refactor + test)
+- The Plan explicitly includes expressions such as "step-by-step", "phase", or "milestone"
 
 ---
 
-## 2. 분해 워크플로우
+## 2. Decomposition Workflow
 
-### Step 1: Epic (부모 이슈) 생성
+### Step 1: Create Epic (Parent Issue)
 
 ```
 Tool:  mcp__github__issue_write
@@ -30,19 +30,19 @@ Params:
   labels: ["epic"]
 ```
 
-### Step 2: 하위 이슈 생성 (의존 순서대로)
+### Step 2: Create Sub-Issues (in dependency order)
 
-각 하위 이슈에 해당 유형의 템플릿(`references/issue-templates.md`)을 적용한다.
-각 하위 이슈 본문 상단에 아래를 추가한다:
+Apply the corresponding type template (`references/issue-templates.md`) to each sub-issue.
+Add the following at the top of each sub-issue body:
 
 ```markdown
 > 🔗 Parent Epic: #<epic-number>
 > 📌 Depends on: #<dependency-issue-number> (if applicable)
 ```
 
-### Step 3: Epic 본문 업데이트
+### Step 3: Update Epic Body
 
-하위 이슈 생성 후 Epic 본문을 업데이트한다.
+Update the Epic body after all sub-issues have been created.
 
 ```
 Tool:  mcp__github__issue_write
@@ -54,7 +54,7 @@ Params:
   body:         "<updated body with sub-issue checklist>"
 ```
 
-### Step 4: Epic에 요약 코멘트 작성
+### Step 4: Add Summary Comment to Epic
 
 ```
 Tool:  mcp__github__add_issue_comment
@@ -67,26 +67,26 @@ Params:
 
 ---
 
-## 3. Epic 본문 업데이트 템플릿
+## 3. Epic Body Update Template
 
-하위 이슈 생성 완료 후 Epic 본문에 아래 형식을 적용한다.
+Apply the format below to the Epic body after all sub-issues have been created.
 
 ```markdown
-## 개요
-<전체 목표 설명>
+## Overview
+<Description of the overall goal>
 
-## 하위 이슈
+## Sub-Issues
 
-| # | 이슈 | 유형 | 의존성 | 크기 |
+| # | Issue | Type | Dependencies | Size |
 |---|---|---|---|---|
-| 1 | #101 DB 스키마 설계 | feature | - | S |
-| 2 | #102 API 엔드포인트 구현 | feature | #101 | M |
-| 3 | #103 기존 인증 로직 리팩토링 | refactor | - | M |
-| 4 | #104 통합 테스트 작성 | test | #101, #102 | S |
+| 1 | #101 DB Schema Design | feature | - | S |
+| 2 | #102 API Endpoint Implementation | feature | #101 | M |
+| 3 | #103 Refactor Existing Auth Logic | refactor | - | M |
+| 4 | #104 Write Integration Tests | test | #101, #102 | S |
 
-## 진행 상황
-- [ ] #101 DB 스키마 설계
-- [ ] #102 API 엔드포인트 구현
-- [ ] #103 기존 인증 로직 리팩토링
-- [ ] #104 통합 테스트 작성
+## Progress
+- [ ] #101 DB Schema Design
+- [ ] #102 API Endpoint Implementation
+- [ ] #103 Refactor Existing Auth Logic
+- [ ] #104 Write Integration Tests
 ```

@@ -1,37 +1,37 @@
 # Issue Templates
 
-이슈 유형별 마크다운 템플릿, 라벨, 브랜치 프리픽스를 정의한다.
-SKILL.md Step 5에서 참조한다.
+Defines markdown templates, labels, and branch prefixes for each issue type.
+Referenced in SKILL.md Step 5.
 
 ---
 
-## 1. Feature (새 기능)
+## 1. Feature (New Feature)
 
 ### Template
 
 ```markdown
-## 개요
-<!-- plan에서 추출한 기능 목적 1-2문장 -->
+## Overview
+<!-- 1-2 sentence description of the feature purpose extracted from the plan -->
 
-## 사용자 시나리오
-- As a [사용자 유형], I want to [행동] so that [이유]
+## User Scenario
+- As a [user type], I want to [action] so that [reason]
 
-## 구현 계획
-- [ ] Phase 1: [기반 작업 - 모델/스키마/인터페이스]
-- [ ] Phase 2: [핵심 로직 구현]
-- [ ] Phase 3: [UI/API 연결]
-- [ ] Phase 4: [테스트 작성]
+## Implementation Plan
+- [ ] Phase 1: [Foundation work - models/schemas/interfaces]
+- [ ] Phase 2: [Core logic implementation]
+- [ ] Phase 3: [UI/API integration]
+- [ ] Phase 4: [Write tests]
 
-## 기술 결정사항
-- **접근 방식**:
-- **사용 라이브러리**:
-- **영향받는 모듈**:
+## Technical Decisions
+- **Approach**:
+- **Libraries Used**:
+- **Affected Modules**:
 
-## 변경 예상 파일
+## Expected File Changes
 - `src/...`
 
-## 수용 기준 (Acceptance Criteria)
-- [ ] [구체적이고 검증 가능한 조건]
+## Acceptance Criteria
+- [ ] [Specific and verifiable condition]
 ```
 
 ### Metadata
@@ -41,41 +41,41 @@ SKILL.md Step 5에서 참조한다.
 
 ---
 
-## 2. Bugfix (버그 수정)
+## 2. Bugfix (Bug Fix)
 
 ### Template
 
 ```markdown
-## 버그 설명
-<!-- 무엇이 잘못되고 있는가 -->
+## Bug Description
+<!-- What is going wrong -->
 
-## 재현 단계
+## Steps to Reproduce
 1. ...
 2. ...
 3. ...
 
-## 현재 동작 (Actual)
-<!-- 지금 어떻게 동작하는가 -->
+## Actual Behavior
+<!-- How it currently behaves -->
 
-## 기대 동작 (Expected)
-<!-- 올바르게 동작하면 어떠해야 하는가 -->
+## Expected Behavior
+<!-- How it should behave when working correctly -->
 
-## 원인 분석
-- **원인 위치**: `src/...`
-- **근본 원인**:
+## Root Cause Analysis
+- **Location**: `src/...`
+- **Root Cause**:
 
-## 수정 계획
-- [ ] [수정 단계 1]
-- [ ] [수정 단계 2]
-- [ ] [회귀 테스트 추가]
+## Fix Plan
+- [ ] [Fix step 1]
+- [ ] [Fix step 2]
+- [ ] [Add regression test]
 
-## 영향 범위
-- **심각도**: Critical / High / Medium / Low
-- **영향받는 기능**:
+## Impact Scope
+- **Severity**: Critical / High / Medium / Low
+- **Affected Features**:
 
-## 관련 로그/에러
+## Related Logs/Errors
 ```
-에러 메시지 또는 스택 트레이스
+Error message or stack trace
 ```
 ```
 
@@ -86,44 +86,44 @@ SKILL.md Step 5에서 참조한다.
 
 ---
 
-## 3. Refactor (리팩토링)
+## 3. Refactor (Refactoring)
 
 ### Template
 
 ```markdown
-## 리팩토링 목적
-<!-- 왜 리팩토링이 필요한가 -->
+## Refactoring Purpose
+<!-- Why is refactoring needed -->
 
-## 현재 구조의 문제점
-- 문제 1: ...
-- 문제 2: ...
+## Problems with Current Structure
+- Problem 1: ...
+- Problem 2: ...
 
-## 변경 전 → 변경 후
+## Before → After
 
-### Before: 현재 구조 다이어그램 또는 코드 패턴
+### Before: Current structure diagram or code pattern
 
-### After: 목표 구조 다이어그램 또는 코드 패턴
+### After: Target structure diagram or code pattern
 
-## 리팩토링 단계
-- [ ] Step 1: [안전한 준비 작업 - 테스트 보강 등]
-- [ ] Step 2: [핵심 구조 변경]
-- [ ] Step 3: [의존하는 코드 업데이트]
-- [ ] Step 4: [정리 및 검증]
+## Refactoring Steps
+- [ ] Step 1: [Safe preparation - reinforce tests, etc.]
+- [ ] Step 2: [Core structural changes]
+- [ ] Step 3: [Update dependent code]
+- [ ] Step 4: [Cleanup and verification]
 
-## 변경 범위
-- **변경 파일 수**: 약 N개
-- **핵심 파일**: `src/...`
-- **공개 API 변경 여부**: Yes / No
+## Change Scope
+- **Number of changed files**: ~N files
+- **Key files**: `src/...`
+- **Public API changes**: Yes / No
 
-## 리스크 & 완화 전략
-| 리스크 | 확률 | 완화 방법 |
+## Risks & Mitigation Strategy
+| Risk | Probability | Mitigation |
 |---|---|---|
-| 기존 테스트 실패 | 중 | 단계별 커밋으로 롤백 용이하게 |
+| Existing tests fail | Medium | Commit incrementally for easy rollback |
 
-## 성공 기준
-- [ ] 기존 테스트 100% 통과
-- [ ] [성능/가독성/유지보수성 개선 지표]
-- [ ] 외부 동작 변경 없음
+## Success Criteria
+- [ ] 100% of existing tests pass
+- [ ] [Performance/readability/maintainability improvement metrics]
+- [ ] No changes to external behavior
 ```
 
 ### Metadata
@@ -133,26 +133,26 @@ SKILL.md Step 5에서 참조한다.
 
 ---
 
-## 4. Docs (문서화)
+## 4. Docs (Documentation)
 
 ### Template
 
 ```markdown
-## 문서화 대상
-<!-- 무엇에 대한 문서인가 -->
+## Documentation Target
+<!-- What is this documentation about -->
 
-## 문서화 이유
-<!-- 왜 필요한가: 신규 기능, 기존 문서 부족, 온보딩 등 -->
+## Reason for Documentation
+<!-- Why it's needed: new feature, insufficient existing docs, onboarding, etc. -->
 
-## 작성 계획
-- [ ] [문서 항목 1]
-- [ ] [문서 항목 2]
-- [ ] [코드 주석/JSDoc 추가]
+## Writing Plan
+- [ ] [Documentation item 1]
+- [ ] [Documentation item 2]
+- [ ] [Add code comments/JSDoc]
 
-## 대상 독자
-<!-- 신규 개발자 / API 사용자 / 운영팀 등 -->
+## Target Audience
+<!-- New developers / API consumers / Operations team, etc. -->
 
-## 변경 파일
+## Changed Files
 - `docs/...`
 - `README.md`
 ```
@@ -164,31 +164,31 @@ SKILL.md Step 5에서 참조한다.
 
 ---
 
-## 5. Test (테스트)
+## 5. Test (Testing)
 
 ### Template
 
 ```markdown
-## 테스트 대상
-<!-- 어떤 모듈/기능의 테스트인가 -->
+## Test Target
+<!-- Which module/feature is being tested -->
 
-## 현재 커버리지 상태
-- **현재 커버리지**: ~N%
-- **목표 커버리지**: ~N%
-- **미커버 영역**:
+## Current Coverage Status
+- **Current Coverage**: ~N%
+- **Target Coverage**: ~N%
+- **Uncovered Areas**:
 
-## 테스트 계획
-- [ ] 단위 테스트: [대상]
-- [ ] 통합 테스트: [대상]
-- [ ] E2E 테스트: [대상]
-- [ ] 엣지 케이스: [목록]
+## Test Plan
+- [ ] Unit tests: [target]
+- [ ] Integration tests: [target]
+- [ ] E2E tests: [target]
+- [ ] Edge cases: [list]
 
-## 테스트 케이스 목록
-| 케이스 | 입력 | 기대 결과 | 유형 |
+## Test Case List
+| Case | Input | Expected Result | Type |
 |---|---|---|---|
-| 정상 케이스 | ... | ... | unit |
-| 경계값 | ... | ... | unit |
-| 에러 케이스 | ... | ... | unit |
+| Normal case | ... | ... | unit |
+| Boundary value | ... | ... | unit |
+| Error case | ... | ... | unit |
 ```
 
 ### Metadata
@@ -198,25 +198,25 @@ SKILL.md Step 5에서 참조한다.
 
 ---
 
-## 6. Chore (유지보수)
+## 6. Chore (Maintenance)
 
 ### Template
 
 ```markdown
-## 작업 내용
-<!-- 무엇을 변경하는가 -->
+## Task Description
+<!-- What is being changed -->
 
-## 변경 이유
-<!-- 왜 필요한가: 보안 패치, 버전 업, CI 개선 등 -->
+## Reason for Change
+<!-- Why it's needed: security patch, version upgrade, CI improvement, etc. -->
 
-## 변경 계획
-- [ ] [작업 항목 1]
-- [ ] [작업 항목 2]
+## Change Plan
+- [ ] [Task item 1]
+- [ ] [Task item 2]
 
-## 영향 범위
-- **서비스 중단 여부**: Yes / No
-- **하위 호환성**: 유지 / 깨짐
-- **팀 공유 필요 사항**:
+## Impact Scope
+- **Service Downtime**: Yes / No
+- **Backward Compatibility**: Maintained / Broken
+- **Items Requiring Team Communication**:
 ```
 
 ### Metadata

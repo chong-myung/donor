@@ -1,58 +1,58 @@
 # Classification Rules
 
-유형 감지, 크기/우선순위 추정, 에러 처리 규칙을 정의한다.
-SKILL.md Step 2, 4, 7에서 참조한다.
+Defines type detection, size/priority estimation, and error handling rules.
+Referenced in SKILL.md Steps 2, 4, and 7.
 
 ---
 
-## 1. 유형 감지 키워드
+## 1. Type Detection Keywords
 
-Plan 내용을 읽고 아래 키워드로 유형을 분류한다.
+Read the Plan content and classify the type based on the keywords below.
 
 | Type | Detection Keywords / Patterns |
 |---|---|
-| `feature` | 새 기능, 추가, 구현, 도입, new, implement, add, introduce, create |
-| `bugfix` | 버그, 오류, 수정, fix, crash, error, broken, failing, regression |
-| `refactor` | 리팩토링, 개선, 정리, 구조 변경, 성능, optimize, restructure, clean up, migrate |
-| `docs` | 문서화, README, API docs, 주석, documentation, comments, guide |
-| `test` | 테스트, 커버리지, E2E, unit test, coverage, spec, assertion |
-| `chore` | 의존성, CI/CD, 빌드, 설정, dependency, build, config, upgrade, bump |
+| `feature` | new feature, add, implement, introduce, create |
+| `bugfix` | bug, error, fix, crash, broken, failing, regression |
+| `refactor` | refactoring, improve, clean up, restructure, performance, optimize, migrate |
+| `docs` | documentation, README, API docs, comments, guide, annotations |
+| `test` | test, coverage, E2E, unit test, spec, assertion |
+| `chore` | dependency, CI/CD, build, config, upgrade, bump |
 
-### 애매한 경우 처리
+### Handling Ambiguous Cases
 
-Plan이 여러 유형에 매칭되거나 어느 유형에도 명확히 해당하지 않으면 사용자에게 확인한다:
+If a Plan matches multiple types or does not clearly belong to any type, confirm with the user:
 
-> "이 plan은 feature와 refactor 모두에 해당할 수 있습니다. 어떤 유형으로 등록할까요?"
+> "This plan could be classified as both feature and refactor. Which type would you like to register it as?"
 
 ---
 
-## 2. 크기 추정 규칙 (Size Labels)
+## 2. Size Estimation Rules (Size Labels)
 
-Plan의 구현 단계/Phase 수를 기준으로 추정한다. 레포지토리에서 size 라벨을 사용하는 경우에만 적용한다.
+Estimated based on the number of implementation steps/phases in the Plan. Applied only when the repository uses size labels.
 
-| Size | 조건 |
+| Size | Criteria |
 |---|---|
 | `size:S` | 1-2 steps |
 | `size:M` | 3-5 steps |
-| `size:L` | 6+ steps 또는 multi-module |
+| `size:L` | 6+ steps or multi-module |
 
 ---
 
-## 3. 우선순위 추정 규칙 (Priority Labels)
+## 3. Priority Estimation Rules (Priority Labels)
 
-Plan 내 긴급도 키워드를 기준으로 추정한다.
+Estimated based on urgency keywords within the Plan.
 
 | Priority | Detection Keywords |
 |---|---|
-| `priority:critical` | 긴급, urgent, ASAP |
-| `priority:high` | 중요, important |
-| `priority:medium` | (default — 명시적 키워드 없음) |
+| `priority:critical` | urgent, ASAP, emergency |
+| `priority:high` | important, high priority |
+| `priority:medium` | (default — no explicit keywords) |
 
 ---
 
-## 4. 에러 처리 규칙
+## 4. Error Handling Rules
 
-이슈 생성 MCP 호출 실패 시 아래 표에 따라 대응한다.
+Respond according to the table below when an issue creation MCP call fails.
 
 | Error | Cause | Resolution |
 |---|---|---|
@@ -61,8 +61,8 @@ Plan 내 긴급도 키워드를 기준으로 추정한다.
 | `403 Forbidden` | Insufficient permissions | Inform user to check their GitHub token scope |
 | `Rate limit exceeded` | Too many API calls | Wait and retry, or inform the user |
 
-### 안내 메시지 형식
+### Error Message Format
 
-오류 발생 시 **절대 무시하지 않고** 아래 형식으로 보고한다:
+When an error occurs, **never ignore it** and report using the format below:
 
-> "⚠️ 이슈 생성 중 오류가 발생했습니다: [error]. [suggested fix]"
+> "⚠️ An error occurred while creating the issue: [error]. [suggested fix]"
