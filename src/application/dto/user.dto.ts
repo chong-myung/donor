@@ -7,6 +7,7 @@ export interface CreateUserDTO {
   loginPlatform: string;
   walletAddress?: string | null;
   isActive?: boolean;
+  role?: string;
 }
 
 export interface UpdateUserDTO {
@@ -28,6 +29,9 @@ export class UserResponseDTO {
 
   @ApiProperty({ example: true, description: 'Is Active User' })
   isActive: boolean;
+
+  @ApiProperty({ example: 'DONOR', description: 'User Role' })
+  role: string;
 
   @ApiProperty({ example: '2023-01-01T00:00:00.000Z', description: 'Created At' })
   createdAt: Date;

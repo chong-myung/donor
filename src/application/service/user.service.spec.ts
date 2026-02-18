@@ -45,6 +45,7 @@ describe('UserService', () => {
                 createUserDto.loginPlatform,
                 null,
                 true,
+                'DONOR',
                 new Date()
             );
 
@@ -69,7 +70,7 @@ describe('UserService', () => {
             };
 
             mockUsersRepository.findByEmail.mockResolvedValue(
-                new UserEntity(1, 'existing@example.com', 'hash', 'Email', null, true, new Date())
+                new UserEntity(1, 'existing@example.com', 'hash', 'Email', null, true, 'DONOR', new Date())
             );
 
             await expect(userService.register(createUserDto)).rejects.toThrow('Email already exists');
@@ -81,7 +82,7 @@ describe('UserService', () => {
             const email = 'test@example.com';
             const password = 'password123';
             const hashedPassword = 'hashedPassword';
-            const user = new UserEntity(1, email, hashedPassword, 'Email', null, true, new Date());
+            const user = new UserEntity(1, email, hashedPassword, 'Email', null, true, 'DONOR', new Date());
             const token = 'jwtToken';
 
             mockUsersRepository.findByEmail.mockResolvedValue(user);
@@ -102,7 +103,7 @@ describe('UserService', () => {
         });
 
         it('should throw error if password does not match', async () => {
-            const user = new UserEntity(1, 'test@example.com', 'hash', 'Email', null, true, new Date());
+            const user = new UserEntity(1, 'test@example.com', 'hash', 'Email', null, true, 'DONOR', new Date());
             mockUsersRepository.findByEmail.mockResolvedValue(user);
             (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
