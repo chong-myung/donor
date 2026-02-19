@@ -84,6 +84,10 @@ export class UserService {
         return this.refreshTokens.get(userId);
     }
 
+    async updateUser(userId: number, data: { email?: string; walletAddress?: string }): Promise<UserEntity | null> {
+        return this.usersRepository.update(userId, data);
+    }
+
     async info(userId: number): Promise<any> {
         const user = await this.usersRepository.findById(userId);
         if (!user) {

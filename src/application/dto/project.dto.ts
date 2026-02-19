@@ -6,6 +6,9 @@ export class CreateProjectDTO {
   @ApiProperty()
   orgId: number;
 
+  @ApiProperty({ description: '프로젝트 국가', example: 'KR' })
+  nation: string;
+
   @ApiProperty()
   title: string;
 

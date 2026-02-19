@@ -7,6 +7,13 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './infrastructure/auth/guard/jwt-auth.guard';
 import { RolesGuard } from './infrastructure/auth/guard/roles.guard';
 import { CommonCodeModule } from './modules/common-code.module';
+import { OrganizationsModule } from './modules/organizations.module';
+import { ProjectMediaModule } from './modules/project-media.module';
+import { FavoriteProjectsModule } from './modules/favorite-projects.module';
+import { DonationsModule } from './modules/donations.module';
+import { MeModule } from './modules/me.module';
+import { OrgModule } from './modules/org.module';
+import { AdminModule } from './modules/admin.module';
 
 @Module({
     imports: [
@@ -17,6 +24,13 @@ import { CommonCodeModule } from './modules/common-code.module';
         ProjectsModule,
         AuthModule,
         CommonCodeModule,
+        OrganizationsModule,
+        ProjectMediaModule,
+        FavoriteProjectsModule,
+        DonationsModule,
+        MeModule,
+        OrgModule,
+        AdminModule,
     ],
     controllers: [],
     providers: [

@@ -4,6 +4,7 @@ import { CreateOrganizationDTO, UpdateOrganizationDTO } from '../../application/
 export interface IOrganizationsRepository {
   findAll(): Promise<OrganizationEntity[]>;
   findById(id: number): Promise<OrganizationEntity | null>;
+  findByUserId(userId: number): Promise<OrganizationEntity | null>;
   findByWalletAddress(walletAddress: string): Promise<OrganizationEntity | null>;
   create(data: CreateOrganizationDTO): Promise<OrganizationEntity>;
   update(id: number, data: UpdateOrganizationDTO): Promise<OrganizationEntity | null>;
