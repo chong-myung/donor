@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Param, Query, Req, HttpStatus, Res } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Req, HttpStatus, Res, UseGuards } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Roles } from '../../common/decorators/roles.decorator';
+import { OrgMemberGuard } from '../../infrastructure/auth/guard/org-member.guard';
+import { OrgRoles } from '../../common/decorators/org-roles.decorator';
 import { OrganizationService } from '../../application/service/organization.service';
 import { DonationService } from '../../application/service/donation.service';
 import { toOrganizationDetail } from '../../application/dto/organization.dto';
@@ -9,6 +10,7 @@ import { toDonationList, toDonationDetail } from '../../application/dto/donation
 
 @ApiTags('Organization My Page')
 @Controller('org')
+@UseGuards(OrgMemberGuard)
 export class OrgController {
     constructor(
         private readonly organizationService: OrganizationService,
@@ -17,10 +19,11 @@ export class OrgController {
 
     @Get('dashboard')
     @ApiBearerAuth()
-    @Roles('ORG_ADMIN')
+    @OrgRoles('ADMIN', 'MANAGER')
     @ApiOperation({ summary: '기관 대시보드' })
     async getDashboard(@Req() req: Request, @Res() res: Response) {
-        const org = await this.getOrgByUser(req);
+        const orgId = (req as any).orgMember.orgId;
+        const org = await this.organizationService.getOrganizationById(orgId);
         res.status(HttpStatus.OK).json({
             success: true,
             data: {
@@ -32,17 +35,16 @@ export class OrgController {
 
     @Get('donations')
     @ApiBearerAuth()
-    @Roles('ORG_ADMIN')
+    @OrgRoles('ADMIN', 'MANAGER')
     @ApiOperation({ summary: '기부 수령 내역' })
     async getOrgDonations(@Req() req: Request, @Res() res: Response) {
-        const org = await this.getOrgByUser(req);
         const donations = await this.donationService.getAllDonations();
         res.status(HttpStatus.OK).json({ success: true, data: toDonationList(donations) });
     }
 
     @Get('donations/:id')
     @ApiBearerAuth()
-    @Roles('ORG_ADMIN')
+    @OrgRoles('ADMIN', 'MANAGER', 'VIEWER')
     @ApiOperation({ summary: '기부 수령 상세' })
     async getOrgDonationDetail(@Param('id') id: string, @Res() res: Response) {
         const donation = await this.donationService.getDonationById(Number(id));
@@ -51,10 +53,11 @@ export class OrgController {
 
     @Get('plan')
     @ApiBearerAuth()
-    @Roles('ORG_ADMIN')
+    @OrgRoles('ADMIN')
     @ApiOperation({ summary: '현재 플랜 정보' })
     async getPlan(@Req() req: Request, @Res() res: Response) {
-        const org = await this.getOrgByUser(req);
+        const orgId = (req as any).orgMember.orgId;
+        const org = await this.organizationService.getOrganizationById(orgId);
         res.status(HttpStatus.OK).json({
             success: true,
             data: { planType: org.planType, status: org.status },
@@ -63,39 +66,35 @@ export class OrgController {
 
     @Post('plan/upgrade')
     @ApiBearerAuth()
-    @Roles('ORG_ADMIN')
+    @OrgRoles('ADMIN')
     @ApiOperation({ summary: 'Plus 구독 (Mock)' })
     async upgradePlan(@Req() req: Request, @Res() res: Response) {
-        const org = await this.getOrgByUser(req);
-        const updated = await this.organizationService.updateOrganization(org.orgId, { planType: 'PLUS' });
+        const orgId = (req as any).orgMember.orgId;
+        const updated = await this.organizationService.updateOrganization(orgId, { planType: 'PLUS' });
         res.status(HttpStatus.OK).json({ success: true, data: toOrganizationDetail(updated) });
     }
 
     @Post('plan/cancel')
     @ApiBearerAuth()
-    @Roles('ORG_ADMIN')
+    @OrgRoles('ADMIN')
     @ApiOperation({ summary: '구독 해지' })
     async cancelPlan(@Req() req: Request, @Res() res: Response) {
-        const org = await this.getOrgByUser(req);
-        const updated = await this.organizationService.updateOrganization(org.orgId, { planType: 'FREE' });
+        const orgId = (req as any).orgMember.orgId;
+        const updated = await this.organizationService.updateOrganization(orgId, { planType: 'FREE' });
         res.status(HttpStatus.OK).json({ success: true, data: toOrganizationDetail(updated) });
     }
 
     @Get('reports')
     @ApiBearerAuth()
-    @Roles('ORG_ADMIN')
+    @OrgRoles('ADMIN')
     @ApiOperation({ summary: '기부 리포트 (Plus 전용)' })
     async getReports(@Req() req: Request, @Query() query: { startDate?: string; endDate?: string }, @Res() res: Response) {
-        const org = await this.getOrgByUser(req);
+        const orgId = (req as any).orgMember.orgId;
+        const org = await this.organizationService.getOrganizationById(orgId);
         if (!org.isPlusPlan()) {
             res.status(HttpStatus.FORBIDDEN).json({ success: false, error: 'Plus plan required' });
             return;
         }
         res.status(HttpStatus.OK).json({ success: true, data: { message: 'Report data (mock)', planType: 'PLUS' } });
-    }
-
-    private async getOrgByUser(req: Request) {
-        const userId = (req as any).user.userId;
-        return this.organizationService.getOrganizationByUserId(userId);
     }
 }

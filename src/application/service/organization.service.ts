@@ -41,20 +41,4 @@ export class OrganizationService implements IOrganizationsService {
             throw new NotFoundException('Organization not found or delete failed');
         }
     }
-
-    async getOrganizationByUserId(userId: number): Promise<OrganizationEntity> {
-        const org = await this.organizationRepository.findByUserId(userId);
-        if (!org) {
-            throw new NotFoundException('Organization not found for this user');
-        }
-        return org;
-    }
-
-    async updateWallet(id: number, walletAddress: string): Promise<OrganizationEntity> {
-        const updated = await this.organizationRepository.update(id, { walletAddress });
-        if (!updated) {
-            throw new NotFoundException('Organization not found');
-        }
-        return updated;
-    }
 }

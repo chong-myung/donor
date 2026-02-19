@@ -62,3 +62,13 @@ export type GroupCode = Prisma.GroupCodeModel
  * 
  */
 export type CommonCode = Prisma.CommonCodeModel
+/**
+ * Model OrgApplication
+ * 
+ */
+export type OrgApplication = Prisma.OrgApplicationModel
+/**
+ * Model OrgMember
+ * 
+ */
+export type OrgMember = Prisma.OrgMemberModel

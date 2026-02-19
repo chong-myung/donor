@@ -20,24 +20,28 @@ model User {
 
   donations        Donation[]
   favoriteProjects FavoriteProject[]
-  organization     Organization?
+  orgApplications  OrgApplication[]
+  orgMembers       OrgMember[]
 
   @@map("users")
 }
 
 model Organization {
-  orgId              Int      @id @default(autoincrement()) @map("org_id")
-  name               String   @map("name") @db.VarChar(255)
-  registrationNumber String?  @unique @map("registration_number") @db.VarChar(100)
-  walletAddress      String   @unique @map("wallet_address") @db.VarChar(100)
-  contactInfo        String?  @map("contact_info") @db.Text
-  userId             Int?     @unique @map("user_id")
-  planType           String   @default("FREE") @map("plan_type") @db.VarChar(20)
-  status             String   @default("PENDING") @map("status") @db.VarChar(20)
-  createdAt          DateTime @default(now()) @map("created_at")
+  orgId              Int       @id @default(autoincrement()) @map("org_id")
+  name               String    @map("name") @db.VarChar(255)
+  registrationNumber String?   @unique @map("registration_number") @db.VarChar(100)
+  description        String?   @map("description") @db.Text
+  logoUrl            String?   @map("logo_url") @db.VarChar(255)
+  walletAddress      String?   @unique @map("wallet_address") @db.VarChar(100)
+  contactInfo        String?   @map("contact_info") @db.Text
+  isVerified         Boolean   @default(false) @map("is_verified")
+  planType           String    @default("FREE") @map("plan_type") @db.VarChar(20)
+  status             String    @default("PENDING") @map("status") @db.VarChar(20)
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
 
-  user     User?     @relation(fields: [userId], references: [userId])
-  projects Project[]
+  orgMembers OrgMember[]
+  projects   Project[]
 
   @@map("organizations")
 }
@@ -150,4 +154,38 @@ model CommonCode {
 
   @@id([groupCode, codeId])
   @@map("TB_COMMON_CODE")
+}
+
+model OrgApplication {
+  applicationId      Int       @id @default(autoincrement()) @map("application_id")
+  userId             Int       @map("user_id")
+  orgName            String    @map("org_name") @db.VarChar(255)
+  registrationNumber String?   @map("registration_number") @db.VarChar(100)
+  registrationDocUrl String?   @map("registration_doc_url") @db.VarChar(255)
+  contactName        String?   @map("contact_name") @db.VarChar(100)
+  contactPhone       String?   @map("contact_phone") @db.VarChar(20)
+  contactEmail       String?   @map("contact_email") @db.VarChar(255)
+  description        String?   @map("description") @db.Text
+  status             String    @default("PENDING") @map("status") @db.VarChar(20)
+  rejectedReason     String?   @map("rejected_reason") @db.Text
+  reviewedAt         DateTime? @map("reviewed_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [userId])
+
+  @@map("org_applications")
+}
+
+model OrgMember {
+  orgMemberId Int      @id @default(autoincrement()) @map("org_member_id")
+  orgId       Int      @map("org_id")
+  userId      Int      @map("user_id")
+  role        String   @default("ADMIN") @map("role") @db.VarChar(20)
+  joinedAt    DateTime @default(now()) @map("joined_at")
+
+  organization Organization @relation(fields: [orgId], references: [orgId])
+  user         User         @relation(fields: [userId], references: [userId])
+
+  @@unique([orgId, userId])
+  @@map("org_members")
 }

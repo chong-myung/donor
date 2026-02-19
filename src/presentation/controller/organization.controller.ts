@@ -74,7 +74,7 @@ export class OrganizationController {
         @Body() data: UpdateWalletDTO,
         @Res() res: Response,
     ) {
-        const org = await this.organizationService.updateWallet(Number(id), data.walletAddress);
+        const org = await this.organizationService.updateOrganization(Number(id), { walletAddress: data.walletAddress });
         res.status(HttpStatus.OK).json({
             success: true,
             data: toOrganizationDetail(org),

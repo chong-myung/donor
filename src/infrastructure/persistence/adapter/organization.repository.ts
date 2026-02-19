@@ -6,7 +6,7 @@ import { CreateOrganizationDTO, UpdateOrganizationDTO } from '../../../applicati
 
 @Injectable()
 export class OrganizationRepository implements IOrganizationsRepository {
-    constructor(private prisma: PrismaService) { }
+    constructor(private prisma: PrismaService) {}
 
     async findAll(): Promise<OrganizationEntity[]> {
         const orgs = await this.prisma.organization.findMany({
@@ -25,13 +25,6 @@ export class OrganizationRepository implements IOrganizationsRepository {
         return org ? this.mapToEntity(org) : null;
     }
 
-    async findByUserId(userId: number): Promise<OrganizationEntity | null> {
-        const org = await this.prisma.organization.findUnique({
-            where: { userId },
-        });
-        return org ? this.mapToEntity(org) : null;
-    }
-
     async findByWalletAddress(walletAddress: string): Promise<OrganizationEntity | null> {
         const org = await this.prisma.organization.findUnique({
             where: { walletAddress },
@@ -44,9 +37,10 @@ export class OrganizationRepository implements IOrganizationsRepository {
             data: {
                 name: data.name,
                 registrationNumber: data.registrationNumber,
+                description: data.description,
+                logoUrl: data.logoUrl,
                 walletAddress: data.walletAddress,
                 contactInfo: data.contactInfo,
-                userId: data.userId,
                 planType: data.planType ?? 'FREE',
                 status: data.status ?? 'PENDING',
             },
@@ -61,15 +55,17 @@ export class OrganizationRepository implements IOrganizationsRepository {
                 data: {
                     name: data.name,
                     registrationNumber: data.registrationNumber,
+                    description: data.description,
+                    logoUrl: data.logoUrl,
                     walletAddress: data.walletAddress,
                     contactInfo: data.contactInfo,
-                    userId: data.userId,
+                    isVerified: data.isVerified,
                     planType: data.planType,
                     status: data.status,
                 },
             });
             return this.mapToEntity(org);
-        } catch (error) {
+        } catch {
             return null;
         }
     }
@@ -80,7 +76,7 @@ export class OrganizationRepository implements IOrganizationsRepository {
                 where: { orgId: id },
             });
             return true;
-        } catch (error) {
+        } catch {
             return false;
         }
     }
@@ -90,12 +86,15 @@ export class OrganizationRepository implements IOrganizationsRepository {
             orgId: data.orgId,
             name: data.name,
             registrationNumber: data.registrationNumber,
+            description: data.description,
+            logoUrl: data.logoUrl,
             walletAddress: data.walletAddress,
             contactInfo: data.contactInfo,
-            userId: data.userId,
+            isVerified: data.isVerified,
             planType: data.planType,
             status: data.status,
             createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
         });
     }
 }

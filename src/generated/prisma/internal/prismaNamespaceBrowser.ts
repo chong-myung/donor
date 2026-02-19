@@ -59,7 +59,9 @@ export const ModelName = {
   ProjectMedia: 'ProjectMedia',
   FavoriteProject: 'FavoriteProject',
   GroupCode: 'GroupCode',
-  CommonCode: 'CommonCode'
+  CommonCode: 'CommonCode',
+  OrgApplication: 'OrgApplication',
+  OrgMember: 'OrgMember'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -96,12 +98,15 @@ export const OrganizationScalarFieldEnum = {
   orgId: 'orgId',
   name: 'name',
   registrationNumber: 'registrationNumber',
+  description: 'description',
+  logoUrl: 'logoUrl',
   walletAddress: 'walletAddress',
   contactInfo: 'contactInfo',
-  userId: 'userId',
+  isVerified: 'isVerified',
   planType: 'planType',
   status: 'status',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
@@ -202,6 +207,36 @@ export const CommonCodeScalarFieldEnum = {
 export type CommonCodeScalarFieldEnum = (typeof CommonCodeScalarFieldEnum)[keyof typeof CommonCodeScalarFieldEnum]
 
 
+export const OrgApplicationScalarFieldEnum = {
+  applicationId: 'applicationId',
+  userId: 'userId',
+  orgName: 'orgName',
+  registrationNumber: 'registrationNumber',
+  registrationDocUrl: 'registrationDocUrl',
+  contactName: 'contactName',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  description: 'description',
+  status: 'status',
+  rejectedReason: 'rejectedReason',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OrgApplicationScalarFieldEnum = (typeof OrgApplicationScalarFieldEnum)[keyof typeof OrgApplicationScalarFieldEnum]
+
+
+export const OrgMemberScalarFieldEnum = {
+  orgMemberId: 'orgMemberId',
+  orgId: 'orgId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+} as const
+
+export type OrgMemberScalarFieldEnum = (typeof OrgMemberScalarFieldEnum)[keyof typeof OrgMemberScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -232,6 +267,8 @@ export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnu
 export const OrganizationOrderByRelevanceFieldEnum = {
   name: 'name',
   registrationNumber: 'registrationNumber',
+  description: 'description',
+  logoUrl: 'logoUrl',
   walletAddress: 'walletAddress',
   contactInfo: 'contactInfo',
   planType: 'planType',
@@ -302,4 +339,26 @@ export const CommonCodeOrderByRelevanceFieldEnum = {
 } as const
 
 export type CommonCodeOrderByRelevanceFieldEnum = (typeof CommonCodeOrderByRelevanceFieldEnum)[keyof typeof CommonCodeOrderByRelevanceFieldEnum]
+
+
+export const OrgApplicationOrderByRelevanceFieldEnum = {
+  orgName: 'orgName',
+  registrationNumber: 'registrationNumber',
+  registrationDocUrl: 'registrationDocUrl',
+  contactName: 'contactName',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  description: 'description',
+  status: 'status',
+  rejectedReason: 'rejectedReason'
+} as const
+
+export type OrgApplicationOrderByRelevanceFieldEnum = (typeof OrgApplicationOrderByRelevanceFieldEnum)[keyof typeof OrgApplicationOrderByRelevanceFieldEnum]
+
+
+export const OrgMemberOrderByRelevanceFieldEnum = {
+  role: 'role'
+} as const
+
+export type OrgMemberOrderByRelevanceFieldEnum = (typeof OrgMemberOrderByRelevanceFieldEnum)[keyof typeof OrgMemberOrderByRelevanceFieldEnum]
 

@@ -28,96 +28,110 @@ export type AggregateOrganization = {
 
 export type OrganizationAvgAggregateOutputType = {
   orgId: number | null
-  userId: number | null
 }
 
 export type OrganizationSumAggregateOutputType = {
   orgId: number | null
-  userId: number | null
 }
 
 export type OrganizationMinAggregateOutputType = {
   orgId: number | null
   name: string | null
   registrationNumber: string | null
+  description: string | null
+  logoUrl: string | null
   walletAddress: string | null
   contactInfo: string | null
-  userId: number | null
+  isVerified: boolean | null
   planType: string | null
   status: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type OrganizationMaxAggregateOutputType = {
   orgId: number | null
   name: string | null
   registrationNumber: string | null
+  description: string | null
+  logoUrl: string | null
   walletAddress: string | null
   contactInfo: string | null
-  userId: number | null
+  isVerified: boolean | null
   planType: string | null
   status: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type OrganizationCountAggregateOutputType = {
   orgId: number
   name: number
   registrationNumber: number
+  description: number
+  logoUrl: number
   walletAddress: number
   contactInfo: number
-  userId: number
+  isVerified: number
   planType: number
   status: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
 
 export type OrganizationAvgAggregateInputType = {
   orgId?: true
-  userId?: true
 }
 
 export type OrganizationSumAggregateInputType = {
   orgId?: true
-  userId?: true
 }
 
 export type OrganizationMinAggregateInputType = {
   orgId?: true
   name?: true
   registrationNumber?: true
+  description?: true
+  logoUrl?: true
   walletAddress?: true
   contactInfo?: true
-  userId?: true
+  isVerified?: true
   planType?: true
   status?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type OrganizationMaxAggregateInputType = {
   orgId?: true
   name?: true
   registrationNumber?: true
+  description?: true
+  logoUrl?: true
   walletAddress?: true
   contactInfo?: true
-  userId?: true
+  isVerified?: true
   planType?: true
   status?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type OrganizationCountAggregateInputType = {
   orgId?: true
   name?: true
   registrationNumber?: true
+  description?: true
+  logoUrl?: true
   walletAddress?: true
   contactInfo?: true
-  userId?: true
+  isVerified?: true
   planType?: true
   status?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -211,12 +225,15 @@ export type OrganizationGroupByOutputType = {
   orgId: number
   name: string
   registrationNumber: string | null
-  walletAddress: string
+  description: string | null
+  logoUrl: string | null
+  walletAddress: string | null
   contactInfo: string | null
-  userId: number | null
+  isVerified: boolean
   planType: string
   status: string
   createdAt: Date
+  updatedAt: Date | null
   _count: OrganizationCountAggregateOutputType | null
   _avg: OrganizationAvgAggregateOutputType | null
   _sum: OrganizationSumAggregateOutputType | null
@@ -246,13 +263,16 @@ export type OrganizationWhereInput = {
   orgId?: Prisma.IntFilter<"Organization"> | number
   name?: Prisma.StringFilter<"Organization"> | string
   registrationNumber?: Prisma.StringNullableFilter<"Organization"> | string | null
-  walletAddress?: Prisma.StringFilter<"Organization"> | string
+  description?: Prisma.StringNullableFilter<"Organization"> | string | null
+  logoUrl?: Prisma.StringNullableFilter<"Organization"> | string | null
+  walletAddress?: Prisma.StringNullableFilter<"Organization"> | string | null
   contactInfo?: Prisma.StringNullableFilter<"Organization"> | string | null
-  userId?: Prisma.IntNullableFilter<"Organization"> | number | null
+  isVerified?: Prisma.BoolFilter<"Organization"> | boolean
   planType?: Prisma.StringFilter<"Organization"> | string
   status?: Prisma.StringFilter<"Organization"> | string
   createdAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
-  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  updatedAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
+  orgMembers?: Prisma.OrgMemberListRelationFilter
   projects?: Prisma.ProjectListRelationFilter
 }
 
@@ -260,13 +280,16 @@ export type OrganizationOrderByWithRelationInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrderInput | Prisma.SortOrder
-  walletAddress?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  walletAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   contactInfo?: Prisma.SortOrderInput | Prisma.SortOrder
-  userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   planType?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  orgMembers?: Prisma.OrgMemberOrderByRelationAggregateInput
   projects?: Prisma.ProjectOrderByRelationAggregateInput
   _relevance?: Prisma.OrganizationOrderByRelevanceInput
 }
@@ -275,29 +298,35 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   orgId?: number
   registrationNumber?: string
   walletAddress?: string
-  userId?: number
   AND?: Prisma.OrganizationWhereInput | Prisma.OrganizationWhereInput[]
   OR?: Prisma.OrganizationWhereInput[]
   NOT?: Prisma.OrganizationWhereInput | Prisma.OrganizationWhereInput[]
   name?: Prisma.StringFilter<"Organization"> | string
+  description?: Prisma.StringNullableFilter<"Organization"> | string | null
+  logoUrl?: Prisma.StringNullableFilter<"Organization"> | string | null
   contactInfo?: Prisma.StringNullableFilter<"Organization"> | string | null
+  isVerified?: Prisma.BoolFilter<"Organization"> | boolean
   planType?: Prisma.StringFilter<"Organization"> | string
   status?: Prisma.StringFilter<"Organization"> | string
   createdAt?: Prisma.DateTimeFilter<"Organization"> | Date | string
-  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  updatedAt?: Prisma.DateTimeNullableFilter<"Organization"> | Date | string | null
+  orgMembers?: Prisma.OrgMemberListRelationFilter
   projects?: Prisma.ProjectListRelationFilter
-}, "orgId" | "registrationNumber" | "walletAddress" | "userId">
+}, "orgId" | "registrationNumber" | "walletAddress">
 
 export type OrganizationOrderByWithAggregationInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrderInput | Prisma.SortOrder
-  walletAddress?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  walletAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   contactInfo?: Prisma.SortOrderInput | Prisma.SortOrder
-  userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   planType?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.OrganizationCountOrderByAggregateInput
   _avg?: Prisma.OrganizationAvgOrderByAggregateInput
   _max?: Prisma.OrganizationMaxOrderByAggregateInput
@@ -312,23 +341,30 @@ export type OrganizationScalarWhereWithAggregatesInput = {
   orgId?: Prisma.IntWithAggregatesFilter<"Organization"> | number
   name?: Prisma.StringWithAggregatesFilter<"Organization"> | string
   registrationNumber?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
-  walletAddress?: Prisma.StringWithAggregatesFilter<"Organization"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  logoUrl?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
+  walletAddress?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
   contactInfo?: Prisma.StringNullableWithAggregatesFilter<"Organization"> | string | null
-  userId?: Prisma.IntNullableWithAggregatesFilter<"Organization"> | number | null
+  isVerified?: Prisma.BoolWithAggregatesFilter<"Organization"> | boolean
   planType?: Prisma.StringWithAggregatesFilter<"Organization"> | string
   status?: Prisma.StringWithAggregatesFilter<"Organization"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Organization"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
 }
 
 export type OrganizationCreateInput = {
   name: string
   registrationNumber?: string | null
-  walletAddress: string
+  description?: string | null
+  logoUrl?: string | null
+  walletAddress?: string | null
   contactInfo?: string | null
+  isVerified?: boolean
   planType?: string
   status?: string
   createdAt?: Date | string
-  user?: Prisma.UserCreateNestedOneWithoutOrganizationInput
+  updatedAt?: Date | string | null
+  orgMembers?: Prisma.OrgMemberCreateNestedManyWithoutOrganizationInput
   projects?: Prisma.ProjectCreateNestedManyWithoutOrganizationInput
 }
 
@@ -336,24 +372,32 @@ export type OrganizationUncheckedCreateInput = {
   orgId?: number
   name: string
   registrationNumber?: string | null
-  walletAddress: string
+  description?: string | null
+  logoUrl?: string | null
+  walletAddress?: string | null
   contactInfo?: string | null
-  userId?: number | null
+  isVerified?: boolean
   planType?: string
   status?: string
   createdAt?: Date | string
+  updatedAt?: Date | string | null
+  orgMembers?: Prisma.OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   planType?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneWithoutOrganizationNestedInput
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  orgMembers?: Prisma.OrgMemberUpdateManyWithoutOrganizationNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutOrganizationNestedInput
 }
 
@@ -361,12 +405,16 @@ export type OrganizationUncheckedUpdateInput = {
   orgId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   planType?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  orgMembers?: Prisma.OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
@@ -374,39 +422,44 @@ export type OrganizationCreateManyInput = {
   orgId?: number
   name: string
   registrationNumber?: string | null
-  walletAddress: string
+  description?: string | null
+  logoUrl?: string | null
+  walletAddress?: string | null
   contactInfo?: string | null
-  userId?: number | null
+  isVerified?: boolean
   planType?: string
   status?: string
   createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type OrganizationUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   planType?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type OrganizationUncheckedUpdateManyInput = {
   orgId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   planType?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type OrganizationNullableScalarRelationFilter = {
-  is?: Prisma.OrganizationWhereInput | null
-  isNot?: Prisma.OrganizationWhereInput | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type OrganizationOrderByRelevanceInput = {
@@ -419,86 +472,71 @@ export type OrganizationCountOrderByAggregateInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  logoUrl?: Prisma.SortOrder
   walletAddress?: Prisma.SortOrder
   contactInfo?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   planType?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type OrganizationAvgOrderByAggregateInput = {
   orgId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
 }
 
 export type OrganizationMaxOrderByAggregateInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  logoUrl?: Prisma.SortOrder
   walletAddress?: Prisma.SortOrder
   contactInfo?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   planType?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type OrganizationMinOrderByAggregateInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   registrationNumber?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  logoUrl?: Prisma.SortOrder
   walletAddress?: Prisma.SortOrder
   contactInfo?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   planType?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type OrganizationSumOrderByAggregateInput = {
   orgId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
 }
 
-export type OrganizationCreateNestedOneWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutUserInput, Prisma.OrganizationUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutUserInput
-  connect?: Prisma.OrganizationWhereUniqueInput
+export type OrganizationNullableScalarRelationFilter = {
+  is?: Prisma.OrganizationWhereInput | null
+  isNot?: Prisma.OrganizationWhereInput | null
 }
 
-export type OrganizationUncheckedCreateNestedOneWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutUserInput, Prisma.OrganizationUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutUserInput
-  connect?: Prisma.OrganizationWhereUniqueInput
+export type OrganizationScalarRelationFilter = {
+  is?: Prisma.OrganizationWhereInput
+  isNot?: Prisma.OrganizationWhereInput
 }
 
-export type OrganizationUpdateOneWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutUserInput, Prisma.OrganizationUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutUserInput
-  upsert?: Prisma.OrganizationUpsertWithoutUserInput
-  disconnect?: Prisma.OrganizationWhereInput | boolean
-  delete?: Prisma.OrganizationWhereInput | boolean
-  connect?: Prisma.OrganizationWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutUserInput, Prisma.OrganizationUpdateWithoutUserInput>, Prisma.OrganizationUncheckedUpdateWithoutUserInput>
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
-export type OrganizationUncheckedUpdateOneWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutUserInput, Prisma.OrganizationUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutUserInput
-  upsert?: Prisma.OrganizationUpsertWithoutUserInput
-  disconnect?: Prisma.OrganizationWhereInput | boolean
-  delete?: Prisma.OrganizationWhereInput | boolean
-  connect?: Prisma.OrganizationWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutUserInput, Prisma.OrganizationUpdateWithoutUserInput>, Prisma.OrganizationUncheckedUpdateWithoutUserInput>
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type OrganizationCreateNestedOneWithoutProjectsInput = {
@@ -517,89 +555,49 @@ export type OrganizationUpdateOneWithoutProjectsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutProjectsInput, Prisma.OrganizationUpdateWithoutProjectsInput>, Prisma.OrganizationUncheckedUpdateWithoutProjectsInput>
 }
 
-export type OrganizationCreateWithoutUserInput = {
-  name: string
-  registrationNumber?: string | null
-  walletAddress: string
-  contactInfo?: string | null
-  planType?: string
-  status?: string
-  createdAt?: Date | string
-  projects?: Prisma.ProjectCreateNestedManyWithoutOrganizationInput
+export type OrganizationCreateNestedOneWithoutOrgMembersInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutOrgMembersInput, Prisma.OrganizationUncheckedCreateWithoutOrgMembersInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutOrgMembersInput
+  connect?: Prisma.OrganizationWhereUniqueInput
 }
 
-export type OrganizationUncheckedCreateWithoutUserInput = {
-  orgId?: number
-  name: string
-  registrationNumber?: string | null
-  walletAddress: string
-  contactInfo?: string | null
-  planType?: string
-  status?: string
-  createdAt?: Date | string
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutOrganizationInput
-}
-
-export type OrganizationCreateOrConnectWithoutUserInput = {
-  where: Prisma.OrganizationWhereUniqueInput
-  create: Prisma.XOR<Prisma.OrganizationCreateWithoutUserInput, Prisma.OrganizationUncheckedCreateWithoutUserInput>
-}
-
-export type OrganizationUpsertWithoutUserInput = {
-  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutUserInput, Prisma.OrganizationUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.OrganizationCreateWithoutUserInput, Prisma.OrganizationUncheckedCreateWithoutUserInput>
-  where?: Prisma.OrganizationWhereInput
-}
-
-export type OrganizationUpdateToOneWithWhereWithoutUserInput = {
-  where?: Prisma.OrganizationWhereInput
-  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutUserInput, Prisma.OrganizationUncheckedUpdateWithoutUserInput>
-}
-
-export type OrganizationUpdateWithoutUserInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  planType?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUpdateManyWithoutOrganizationNestedInput
-}
-
-export type OrganizationUncheckedUpdateWithoutUserInput = {
-  orgId?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  planType?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+export type OrganizationUpdateOneRequiredWithoutOrgMembersNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutOrgMembersInput, Prisma.OrganizationUncheckedCreateWithoutOrgMembersInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutOrgMembersInput
+  upsert?: Prisma.OrganizationUpsertWithoutOrgMembersInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutOrgMembersInput, Prisma.OrganizationUpdateWithoutOrgMembersInput>, Prisma.OrganizationUncheckedUpdateWithoutOrgMembersInput>
 }
 
 export type OrganizationCreateWithoutProjectsInput = {
   name: string
   registrationNumber?: string | null
-  walletAddress: string
+  description?: string | null
+  logoUrl?: string | null
+  walletAddress?: string | null
   contactInfo?: string | null
+  isVerified?: boolean
   planType?: string
   status?: string
   createdAt?: Date | string
-  user?: Prisma.UserCreateNestedOneWithoutOrganizationInput
+  updatedAt?: Date | string | null
+  orgMembers?: Prisma.OrgMemberCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutProjectsInput = {
   orgId?: number
   name: string
   registrationNumber?: string | null
-  walletAddress: string
+  description?: string | null
+  logoUrl?: string | null
+  walletAddress?: string | null
   contactInfo?: string | null
-  userId?: number | null
+  isVerified?: boolean
   planType?: string
   status?: string
   createdAt?: Date | string
+  updatedAt?: Date | string | null
+  orgMembers?: Prisma.OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutProjectsInput = {
@@ -621,24 +619,110 @@ export type OrganizationUpdateToOneWithWhereWithoutProjectsInput = {
 export type OrganizationUpdateWithoutProjectsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   planType?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneWithoutOrganizationNestedInput
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  orgMembers?: Prisma.OrgMemberUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutProjectsInput = {
   orgId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   planType?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  orgMembers?: Prisma.OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationCreateWithoutOrgMembersInput = {
+  name: string
+  registrationNumber?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  walletAddress?: string | null
+  contactInfo?: string | null
+  isVerified?: boolean
+  planType?: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  projects?: Prisma.ProjectCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationUncheckedCreateWithoutOrgMembersInput = {
+  orgId?: number
+  name: string
+  registrationNumber?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  walletAddress?: string | null
+  contactInfo?: string | null
+  isVerified?: boolean
+  planType?: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationCreateOrConnectWithoutOrgMembersInput = {
+  where: Prisma.OrganizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutOrgMembersInput, Prisma.OrganizationUncheckedCreateWithoutOrgMembersInput>
+}
+
+export type OrganizationUpsertWithoutOrgMembersInput = {
+  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutOrgMembersInput, Prisma.OrganizationUncheckedUpdateWithoutOrgMembersInput>
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutOrgMembersInput, Prisma.OrganizationUncheckedCreateWithoutOrgMembersInput>
+  where?: Prisma.OrganizationWhereInput
+}
+
+export type OrganizationUpdateToOneWithWhereWithoutOrgMembersInput = {
+  where?: Prisma.OrganizationWhereInput
+  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutOrgMembersInput, Prisma.OrganizationUncheckedUpdateWithoutOrgMembersInput>
+}
+
+export type OrganizationUpdateWithoutOrgMembersInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planType?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  projects?: Prisma.ProjectUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationUncheckedUpdateWithoutOrgMembersInput = {
+  orgId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  registrationNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  planType?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 
@@ -647,10 +731,12 @@ export type OrganizationUncheckedUpdateWithoutProjectsInput = {
  */
 
 export type OrganizationCountOutputType = {
+  orgMembers: number
   projects: number
 }
 
 export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  orgMembers?: boolean | OrganizationCountOutputTypeCountOrgMembersArgs
   projects?: boolean | OrganizationCountOutputTypeCountProjectsArgs
 }
 
@@ -667,6 +753,13 @@ export type OrganizationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types
 /**
  * OrganizationCountOutputType without action
  */
+export type OrganizationCountOutputTypeCountOrgMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrgMemberWhereInput
+}
+
+/**
+ * OrganizationCountOutputType without action
+ */
 export type OrganizationCountOutputTypeCountProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ProjectWhereInput
 }
@@ -676,13 +769,16 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   orgId?: boolean
   name?: boolean
   registrationNumber?: boolean
+  description?: boolean
+  logoUrl?: boolean
   walletAddress?: boolean
   contactInfo?: boolean
-  userId?: boolean
+  isVerified?: boolean
   planType?: boolean
   status?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.Organization$userArgs<ExtArgs>
+  updatedAt?: boolean
+  orgMembers?: boolean | Prisma.Organization$orgMembersArgs<ExtArgs>
   projects?: boolean | Prisma.Organization$projectsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organization"]>
@@ -693,17 +789,20 @@ export type OrganizationSelectScalar = {
   orgId?: boolean
   name?: boolean
   registrationNumber?: boolean
+  description?: boolean
+  logoUrl?: boolean
   walletAddress?: boolean
   contactInfo?: boolean
-  userId?: boolean
+  isVerified?: boolean
   planType?: boolean
   status?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"orgId" | "name" | "registrationNumber" | "walletAddress" | "contactInfo" | "userId" | "planType" | "status" | "createdAt", ExtArgs["result"]["organization"]>
+export type OrganizationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"orgId" | "name" | "registrationNumber" | "description" | "logoUrl" | "walletAddress" | "contactInfo" | "isVerified" | "planType" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
 export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.Organization$userArgs<ExtArgs>
+  orgMembers?: boolean | Prisma.Organization$orgMembersArgs<ExtArgs>
   projects?: boolean | Prisma.Organization$projectsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -711,19 +810,22 @@ export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.Interna
 export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Organization"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs> | null
+    orgMembers: Prisma.$OrgMemberPayload<ExtArgs>[]
     projects: Prisma.$ProjectPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     orgId: number
     name: string
     registrationNumber: string | null
-    walletAddress: string
+    description: string | null
+    logoUrl: string | null
+    walletAddress: string | null
     contactInfo: string | null
-    userId: number | null
+    isVerified: boolean
     planType: string
     status: string
     createdAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["organization"]>
   composites: {}
 }
@@ -1064,7 +1166,7 @@ readonly fields: OrganizationFieldRefs;
  */
 export interface Prisma__OrganizationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.Organization$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  orgMembers<T extends Prisma.Organization$orgMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$orgMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrgMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projects<T extends Prisma.Organization$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1098,12 +1200,15 @@ export interface OrganizationFieldRefs {
   readonly orgId: Prisma.FieldRef<"Organization", 'Int'>
   readonly name: Prisma.FieldRef<"Organization", 'String'>
   readonly registrationNumber: Prisma.FieldRef<"Organization", 'String'>
+  readonly description: Prisma.FieldRef<"Organization", 'String'>
+  readonly logoUrl: Prisma.FieldRef<"Organization", 'String'>
   readonly walletAddress: Prisma.FieldRef<"Organization", 'String'>
   readonly contactInfo: Prisma.FieldRef<"Organization", 'String'>
-  readonly userId: Prisma.FieldRef<"Organization", 'Int'>
+  readonly isVerified: Prisma.FieldRef<"Organization", 'Boolean'>
   readonly planType: Prisma.FieldRef<"Organization", 'String'>
   readonly status: Prisma.FieldRef<"Organization", 'String'>
   readonly createdAt: Prisma.FieldRef<"Organization", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Organization", 'DateTime'>
 }
     
 
@@ -1447,22 +1552,27 @@ export type OrganizationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * Organization.user
+ * Organization.orgMembers
  */
-export type Organization$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Organization$orgMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the User
+   * Select specific fields to fetch from the OrgMember
    */
-  select?: Prisma.UserSelect<ExtArgs> | null
+  select?: Prisma.OrgMemberSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the User
+   * Omit specific fields from the OrgMember
    */
-  omit?: Prisma.UserOmit<ExtArgs> | null
+  omit?: Prisma.OrgMemberOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
+  include?: Prisma.OrgMemberInclude<ExtArgs> | null
+  where?: Prisma.OrgMemberWhereInput
+  orderBy?: Prisma.OrgMemberOrderByWithRelationInput | Prisma.OrgMemberOrderByWithRelationInput[]
+  cursor?: Prisma.OrgMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrgMemberScalarFieldEnum | Prisma.OrgMemberScalarFieldEnum[]
 }
 
 /**

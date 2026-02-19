@@ -425,10 +425,6 @@ export type BeneficiaryUpdateOneWithoutProjectsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BeneficiaryUpdateToOneWithWhereWithoutProjectsInput, Prisma.BeneficiaryUpdateWithoutProjectsInput>, Prisma.BeneficiaryUncheckedUpdateWithoutProjectsInput>
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type BeneficiaryCreateWithoutProjectsInput = {
   name: string
   bio?: string | null

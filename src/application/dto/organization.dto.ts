@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional, MaxLength, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, MaxLength } from 'class-validator';
 import { OrganizationEntity } from '@/domain/entity/organization.entity';
 
 export class CreateOrganizationDTO {
@@ -14,20 +14,27 @@ export class CreateOrganizationDTO {
     @MaxLength(100)
     registrationNumber?: string | null;
 
-    @ApiProperty({ description: '지갑 주소', example: 'rXXXXXXXXXX' })
+    @ApiPropertyOptional({ description: '기관 소개' })
+    @IsOptional()
+    @IsString()
+    description?: string | null;
+
+    @ApiPropertyOptional({ description: '로고 URL' })
+    @IsOptional()
+    @IsString()
+    @MaxLength(255)
+    logoUrl?: string | null;
+
+    @ApiPropertyOptional({ description: '지갑 주소', example: 'rXXXXXXXXXX' })
+    @IsOptional()
     @IsString()
     @MaxLength(100)
-    walletAddress: string;
+    walletAddress?: string | null;
 
     @ApiPropertyOptional({ description: '연락처 정보' })
     @IsOptional()
     @IsString()
     contactInfo?: string | null;
-
-    @ApiPropertyOptional({ description: '관리자 사용자 ID' })
-    @IsOptional()
-    @IsNumber()
-    userId?: number | null;
 
     @ApiPropertyOptional({ description: '플랜 타입', default: 'FREE', enum: ['FREE', 'PLUS'] })
     @IsOptional()
@@ -53,6 +60,17 @@ export class UpdateOrganizationDTO {
     @MaxLength(100)
     registrationNumber?: string | null;
 
+    @ApiPropertyOptional({ description: '기관 소개' })
+    @IsOptional()
+    @IsString()
+    description?: string | null;
+
+    @ApiPropertyOptional({ description: '로고 URL' })
+    @IsOptional()
+    @IsString()
+    @MaxLength(255)
+    logoUrl?: string | null;
+
     @ApiPropertyOptional({ description: '지갑 주소' })
     @IsOptional()
     @IsString()
@@ -64,10 +82,10 @@ export class UpdateOrganizationDTO {
     @IsString()
     contactInfo?: string | null;
 
-    @ApiPropertyOptional({ description: '관리자 사용자 ID' })
+    @ApiPropertyOptional({ description: '인증 여부' })
     @IsOptional()
-    @IsNumber()
-    userId?: number | null;
+    @IsBoolean()
+    isVerified?: boolean;
 
     @ApiPropertyOptional({ description: '플랜 타입', enum: ['FREE', 'PLUS'] })
     @IsOptional()
@@ -87,29 +105,32 @@ export class UpdateWalletDTO {
     walletAddress: string;
 }
 
-// 기관 목록 응답 매퍼
 export const toOrganizationList = (orgs: OrganizationEntity[]) => {
     return orgs.map((org) => ({
         orgId: org.orgId,
         name: org.name,
+        logoUrl: org.logoUrl,
         walletAddress: org.walletAddress,
+        isVerified: org.isVerified,
         planType: org.planType,
         status: org.status,
         createdAt: org.createdAt,
     }));
 };
 
-// 기관 상세 응답 매퍼
 export const toOrganizationDetail = (org: OrganizationEntity) => {
     return {
         orgId: org.orgId,
         name: org.name,
         registrationNumber: org.registrationNumber,
+        description: org.description,
+        logoUrl: org.logoUrl,
         walletAddress: org.walletAddress,
         contactInfo: org.contactInfo,
-        userId: org.userId,
+        isVerified: org.isVerified,
         planType: org.planType,
         status: org.status,
         createdAt: org.createdAt,
+        updatedAt: org.updatedAt,
     };
 };

@@ -242,7 +242,8 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   donations?: Prisma.DonationListRelationFilter
   favoriteProjects?: Prisma.FavoriteProjectListRelationFilter
-  organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
+  orgApplications?: Prisma.OrgApplicationListRelationFilter
+  orgMembers?: Prisma.OrgMemberListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -256,7 +257,8 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   donations?: Prisma.DonationOrderByRelationAggregateInput
   favoriteProjects?: Prisma.FavoriteProjectOrderByRelationAggregateInput
-  organization?: Prisma.OrganizationOrderByWithRelationInput
+  orgApplications?: Prisma.OrgApplicationOrderByRelationAggregateInput
+  orgMembers?: Prisma.OrgMemberOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
@@ -274,7 +276,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   donations?: Prisma.DonationListRelationFilter
   favoriteProjects?: Prisma.FavoriteProjectListRelationFilter
-  organization?: Prisma.XOR<Prisma.OrganizationNullableScalarRelationFilter, Prisma.OrganizationWhereInput> | null
+  orgApplications?: Prisma.OrgApplicationListRelationFilter
+  orgMembers?: Prisma.OrgMemberListRelationFilter
 }, "userId" | "email" | "walletAddress">
 
 export type UserOrderByWithAggregationInput = {
@@ -317,7 +320,8 @@ export type UserCreateInput = {
   createdAt?: Date | string
   donations?: Prisma.DonationCreateNestedManyWithoutUserInput
   favoriteProjects?: Prisma.FavoriteProjectCreateNestedManyWithoutUserInput
-  organization?: Prisma.OrganizationCreateNestedOneWithoutUserInput
+  orgApplications?: Prisma.OrgApplicationCreateNestedManyWithoutUserInput
+  orgMembers?: Prisma.OrgMemberCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -331,7 +335,8 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   donations?: Prisma.DonationUncheckedCreateNestedManyWithoutUserInput
   favoriteProjects?: Prisma.FavoriteProjectUncheckedCreateNestedManyWithoutUserInput
-  organization?: Prisma.OrganizationUncheckedCreateNestedOneWithoutUserInput
+  orgApplications?: Prisma.OrgApplicationUncheckedCreateNestedManyWithoutUserInput
+  orgMembers?: Prisma.OrgMemberUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -344,7 +349,8 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   donations?: Prisma.DonationUpdateManyWithoutUserNestedInput
   favoriteProjects?: Prisma.FavoriteProjectUpdateManyWithoutUserNestedInput
-  organization?: Prisma.OrganizationUpdateOneWithoutUserNestedInput
+  orgApplications?: Prisma.OrgApplicationUpdateManyWithoutUserNestedInput
+  orgMembers?: Prisma.OrgMemberUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -358,7 +364,8 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   donations?: Prisma.DonationUncheckedUpdateManyWithoutUserNestedInput
   favoriteProjects?: Prisma.FavoriteProjectUncheckedUpdateManyWithoutUserNestedInput
-  organization?: Prisma.OrganizationUncheckedUpdateOneWithoutUserNestedInput
+  orgApplications?: Prisma.OrgApplicationUncheckedUpdateManyWithoutUserNestedInput
+  orgMembers?: Prisma.OrgMemberUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -474,22 +481,6 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type UserCreateNestedOneWithoutOrganizationInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutOrganizationInput, Prisma.UserUncheckedCreateWithoutOrganizationInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrganizationInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneWithoutOrganizationNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutOrganizationInput, Prisma.UserUncheckedCreateWithoutOrganizationInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrganizationInput
-  upsert?: Prisma.UserUpsertWithoutOrganizationInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOrganizationInput, Prisma.UserUpdateWithoutOrganizationInput>, Prisma.UserUncheckedUpdateWithoutOrganizationInput>
-}
-
 export type UserCreateNestedOneWithoutDonationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutDonationsInput, Prisma.UserUncheckedCreateWithoutDonationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutDonationsInput
@@ -520,70 +511,32 @@ export type UserUpdateOneRequiredWithoutFavoriteProjectsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFavoriteProjectsInput, Prisma.UserUpdateWithoutFavoriteProjectsInput>, Prisma.UserUncheckedUpdateWithoutFavoriteProjectsInput>
 }
 
-export type UserCreateWithoutOrganizationInput = {
-  email: string
-  passwordHash?: string | null
-  loginPlatform: string
-  walletAddress?: string | null
-  isActive?: boolean | null
-  role?: string
-  createdAt?: Date | string
-  donations?: Prisma.DonationCreateNestedManyWithoutUserInput
-  favoriteProjects?: Prisma.FavoriteProjectCreateNestedManyWithoutUserInput
+export type UserCreateNestedOneWithoutOrgApplicationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOrgApplicationsInput, Prisma.UserUncheckedCreateWithoutOrgApplicationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrgApplicationsInput
+  connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUncheckedCreateWithoutOrganizationInput = {
-  userId?: number
-  email: string
-  passwordHash?: string | null
-  loginPlatform: string
-  walletAddress?: string | null
-  isActive?: boolean | null
-  role?: string
-  createdAt?: Date | string
-  donations?: Prisma.DonationUncheckedCreateNestedManyWithoutUserInput
-  favoriteProjects?: Prisma.FavoriteProjectUncheckedCreateNestedManyWithoutUserInput
+export type UserUpdateOneRequiredWithoutOrgApplicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOrgApplicationsInput, Prisma.UserUncheckedCreateWithoutOrgApplicationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrgApplicationsInput
+  upsert?: Prisma.UserUpsertWithoutOrgApplicationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOrgApplicationsInput, Prisma.UserUpdateWithoutOrgApplicationsInput>, Prisma.UserUncheckedUpdateWithoutOrgApplicationsInput>
 }
 
-export type UserCreateOrConnectWithoutOrganizationInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutOrganizationInput, Prisma.UserUncheckedCreateWithoutOrganizationInput>
+export type UserCreateNestedOneWithoutOrgMembersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOrgMembersInput, Prisma.UserUncheckedCreateWithoutOrgMembersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrgMembersInput
+  connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpsertWithoutOrganizationInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutOrganizationInput, Prisma.UserUncheckedUpdateWithoutOrganizationInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutOrganizationInput, Prisma.UserUncheckedCreateWithoutOrganizationInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutOrganizationInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutOrganizationInput, Prisma.UserUncheckedUpdateWithoutOrganizationInput>
-}
-
-export type UserUpdateWithoutOrganizationInput = {
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  loginPlatform?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  role?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  donations?: Prisma.DonationUpdateManyWithoutUserNestedInput
-  favoriteProjects?: Prisma.FavoriteProjectUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutOrganizationInput = {
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  loginPlatform?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  role?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  donations?: Prisma.DonationUncheckedUpdateManyWithoutUserNestedInput
-  favoriteProjects?: Prisma.FavoriteProjectUncheckedUpdateManyWithoutUserNestedInput
+export type UserUpdateOneRequiredWithoutOrgMembersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOrgMembersInput, Prisma.UserUncheckedCreateWithoutOrgMembersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrgMembersInput
+  upsert?: Prisma.UserUpsertWithoutOrgMembersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOrgMembersInput, Prisma.UserUpdateWithoutOrgMembersInput>, Prisma.UserUncheckedUpdateWithoutOrgMembersInput>
 }
 
 export type UserCreateWithoutDonationsInput = {
@@ -595,7 +548,8 @@ export type UserCreateWithoutDonationsInput = {
   role?: string
   createdAt?: Date | string
   favoriteProjects?: Prisma.FavoriteProjectCreateNestedManyWithoutUserInput
-  organization?: Prisma.OrganizationCreateNestedOneWithoutUserInput
+  orgApplications?: Prisma.OrgApplicationCreateNestedManyWithoutUserInput
+  orgMembers?: Prisma.OrgMemberCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDonationsInput = {
@@ -608,7 +562,8 @@ export type UserUncheckedCreateWithoutDonationsInput = {
   role?: string
   createdAt?: Date | string
   favoriteProjects?: Prisma.FavoriteProjectUncheckedCreateNestedManyWithoutUserInput
-  organization?: Prisma.OrganizationUncheckedCreateNestedOneWithoutUserInput
+  orgApplications?: Prisma.OrgApplicationUncheckedCreateNestedManyWithoutUserInput
+  orgMembers?: Prisma.OrgMemberUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDonationsInput = {
@@ -636,7 +591,8 @@ export type UserUpdateWithoutDonationsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favoriteProjects?: Prisma.FavoriteProjectUpdateManyWithoutUserNestedInput
-  organization?: Prisma.OrganizationUpdateOneWithoutUserNestedInput
+  orgApplications?: Prisma.OrgApplicationUpdateManyWithoutUserNestedInput
+  orgMembers?: Prisma.OrgMemberUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDonationsInput = {
@@ -649,7 +605,8 @@ export type UserUncheckedUpdateWithoutDonationsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favoriteProjects?: Prisma.FavoriteProjectUncheckedUpdateManyWithoutUserNestedInput
-  organization?: Prisma.OrganizationUncheckedUpdateOneWithoutUserNestedInput
+  orgApplications?: Prisma.OrgApplicationUncheckedUpdateManyWithoutUserNestedInput
+  orgMembers?: Prisma.OrgMemberUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutFavoriteProjectsInput = {
@@ -661,7 +618,8 @@ export type UserCreateWithoutFavoriteProjectsInput = {
   role?: string
   createdAt?: Date | string
   donations?: Prisma.DonationCreateNestedManyWithoutUserInput
-  organization?: Prisma.OrganizationCreateNestedOneWithoutUserInput
+  orgApplications?: Prisma.OrgApplicationCreateNestedManyWithoutUserInput
+  orgMembers?: Prisma.OrgMemberCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFavoriteProjectsInput = {
@@ -674,7 +632,8 @@ export type UserUncheckedCreateWithoutFavoriteProjectsInput = {
   role?: string
   createdAt?: Date | string
   donations?: Prisma.DonationUncheckedCreateNestedManyWithoutUserInput
-  organization?: Prisma.OrganizationUncheckedCreateNestedOneWithoutUserInput
+  orgApplications?: Prisma.OrgApplicationUncheckedCreateNestedManyWithoutUserInput
+  orgMembers?: Prisma.OrgMemberUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFavoriteProjectsInput = {
@@ -702,7 +661,8 @@ export type UserUpdateWithoutFavoriteProjectsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   donations?: Prisma.DonationUpdateManyWithoutUserNestedInput
-  organization?: Prisma.OrganizationUpdateOneWithoutUserNestedInput
+  orgApplications?: Prisma.OrgApplicationUpdateManyWithoutUserNestedInput
+  orgMembers?: Prisma.OrgMemberUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFavoriteProjectsInput = {
@@ -715,7 +675,148 @@ export type UserUncheckedUpdateWithoutFavoriteProjectsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   donations?: Prisma.DonationUncheckedUpdateManyWithoutUserNestedInput
-  organization?: Prisma.OrganizationUncheckedUpdateOneWithoutUserNestedInput
+  orgApplications?: Prisma.OrgApplicationUncheckedUpdateManyWithoutUserNestedInput
+  orgMembers?: Prisma.OrgMemberUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutOrgApplicationsInput = {
+  email: string
+  passwordHash?: string | null
+  loginPlatform: string
+  walletAddress?: string | null
+  isActive?: boolean | null
+  role?: string
+  createdAt?: Date | string
+  donations?: Prisma.DonationCreateNestedManyWithoutUserInput
+  favoriteProjects?: Prisma.FavoriteProjectCreateNestedManyWithoutUserInput
+  orgMembers?: Prisma.OrgMemberCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutOrgApplicationsInput = {
+  userId?: number
+  email: string
+  passwordHash?: string | null
+  loginPlatform: string
+  walletAddress?: string | null
+  isActive?: boolean | null
+  role?: string
+  createdAt?: Date | string
+  donations?: Prisma.DonationUncheckedCreateNestedManyWithoutUserInput
+  favoriteProjects?: Prisma.FavoriteProjectUncheckedCreateNestedManyWithoutUserInput
+  orgMembers?: Prisma.OrgMemberUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutOrgApplicationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOrgApplicationsInput, Prisma.UserUncheckedCreateWithoutOrgApplicationsInput>
+}
+
+export type UserUpsertWithoutOrgApplicationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOrgApplicationsInput, Prisma.UserUncheckedUpdateWithoutOrgApplicationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOrgApplicationsInput, Prisma.UserUncheckedCreateWithoutOrgApplicationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOrgApplicationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOrgApplicationsInput, Prisma.UserUncheckedUpdateWithoutOrgApplicationsInput>
+}
+
+export type UserUpdateWithoutOrgApplicationsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loginPlatform?: Prisma.StringFieldUpdateOperationsInput | string
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  donations?: Prisma.DonationUpdateManyWithoutUserNestedInput
+  favoriteProjects?: Prisma.FavoriteProjectUpdateManyWithoutUserNestedInput
+  orgMembers?: Prisma.OrgMemberUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOrgApplicationsInput = {
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loginPlatform?: Prisma.StringFieldUpdateOperationsInput | string
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  donations?: Prisma.DonationUncheckedUpdateManyWithoutUserNestedInput
+  favoriteProjects?: Prisma.FavoriteProjectUncheckedUpdateManyWithoutUserNestedInput
+  orgMembers?: Prisma.OrgMemberUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutOrgMembersInput = {
+  email: string
+  passwordHash?: string | null
+  loginPlatform: string
+  walletAddress?: string | null
+  isActive?: boolean | null
+  role?: string
+  createdAt?: Date | string
+  donations?: Prisma.DonationCreateNestedManyWithoutUserInput
+  favoriteProjects?: Prisma.FavoriteProjectCreateNestedManyWithoutUserInput
+  orgApplications?: Prisma.OrgApplicationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutOrgMembersInput = {
+  userId?: number
+  email: string
+  passwordHash?: string | null
+  loginPlatform: string
+  walletAddress?: string | null
+  isActive?: boolean | null
+  role?: string
+  createdAt?: Date | string
+  donations?: Prisma.DonationUncheckedCreateNestedManyWithoutUserInput
+  favoriteProjects?: Prisma.FavoriteProjectUncheckedCreateNestedManyWithoutUserInput
+  orgApplications?: Prisma.OrgApplicationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutOrgMembersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOrgMembersInput, Prisma.UserUncheckedCreateWithoutOrgMembersInput>
+}
+
+export type UserUpsertWithoutOrgMembersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOrgMembersInput, Prisma.UserUncheckedUpdateWithoutOrgMembersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOrgMembersInput, Prisma.UserUncheckedCreateWithoutOrgMembersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOrgMembersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOrgMembersInput, Prisma.UserUncheckedUpdateWithoutOrgMembersInput>
+}
+
+export type UserUpdateWithoutOrgMembersInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loginPlatform?: Prisma.StringFieldUpdateOperationsInput | string
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  donations?: Prisma.DonationUpdateManyWithoutUserNestedInput
+  favoriteProjects?: Prisma.FavoriteProjectUpdateManyWithoutUserNestedInput
+  orgApplications?: Prisma.OrgApplicationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOrgMembersInput = {
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  loginPlatform?: Prisma.StringFieldUpdateOperationsInput | string
+  walletAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  donations?: Prisma.DonationUncheckedUpdateManyWithoutUserNestedInput
+  favoriteProjects?: Prisma.FavoriteProjectUncheckedUpdateManyWithoutUserNestedInput
+  orgApplications?: Prisma.OrgApplicationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -726,11 +827,15 @@ export type UserUncheckedUpdateWithoutFavoriteProjectsInput = {
 export type UserCountOutputType = {
   donations: number
   favoriteProjects: number
+  orgApplications: number
+  orgMembers: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   donations?: boolean | UserCountOutputTypeCountDonationsArgs
   favoriteProjects?: boolean | UserCountOutputTypeCountFavoriteProjectsArgs
+  orgApplications?: boolean | UserCountOutputTypeCountOrgApplicationsArgs
+  orgMembers?: boolean | UserCountOutputTypeCountOrgMembersArgs
 }
 
 /**
@@ -757,6 +862,20 @@ export type UserCountOutputTypeCountFavoriteProjectsArgs<ExtArgs extends runtime
   where?: Prisma.FavoriteProjectWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOrgApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrgApplicationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOrgMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrgMemberWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
@@ -769,7 +888,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   donations?: boolean | Prisma.User$donationsArgs<ExtArgs>
   favoriteProjects?: boolean | Prisma.User$favoriteProjectsArgs<ExtArgs>
-  organization?: boolean | Prisma.User$organizationArgs<ExtArgs>
+  orgApplications?: boolean | Prisma.User$orgApplicationsArgs<ExtArgs>
+  orgMembers?: boolean | Prisma.User$orgMembersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -790,7 +910,8 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   donations?: boolean | Prisma.User$donationsArgs<ExtArgs>
   favoriteProjects?: boolean | Prisma.User$favoriteProjectsArgs<ExtArgs>
-  organization?: boolean | Prisma.User$organizationArgs<ExtArgs>
+  orgApplications?: boolean | Prisma.User$orgApplicationsArgs<ExtArgs>
+  orgMembers?: boolean | Prisma.User$orgMembersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -799,7 +920,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     donations: Prisma.$DonationPayload<ExtArgs>[]
     favoriteProjects: Prisma.$FavoriteProjectPayload<ExtArgs>[]
-    organization: Prisma.$OrganizationPayload<ExtArgs> | null
+    orgApplications: Prisma.$OrgApplicationPayload<ExtArgs>[]
+    orgMembers: Prisma.$OrgMemberPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     userId: number
@@ -1152,7 +1274,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   donations<T extends Prisma.User$donationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$donationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DonationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favoriteProjects<T extends Prisma.User$favoriteProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoriteProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoriteProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  organization<T extends Prisma.User$organizationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$organizationArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  orgApplications<T extends Prisma.User$orgApplicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$orgApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrgApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orgMembers<T extends Prisma.User$orgMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$orgMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrgMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1581,22 +1704,51 @@ export type User$favoriteProjectsArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * User.organization
+ * User.orgApplications
  */
-export type User$organizationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$orgApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Organization
+   * Select specific fields to fetch from the OrgApplication
    */
-  select?: Prisma.OrganizationSelect<ExtArgs> | null
+  select?: Prisma.OrgApplicationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Organization
+   * Omit specific fields from the OrgApplication
    */
-  omit?: Prisma.OrganizationOmit<ExtArgs> | null
+  omit?: Prisma.OrgApplicationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.OrganizationInclude<ExtArgs> | null
-  where?: Prisma.OrganizationWhereInput
+  include?: Prisma.OrgApplicationInclude<ExtArgs> | null
+  where?: Prisma.OrgApplicationWhereInput
+  orderBy?: Prisma.OrgApplicationOrderByWithRelationInput | Prisma.OrgApplicationOrderByWithRelationInput[]
+  cursor?: Prisma.OrgApplicationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrgApplicationScalarFieldEnum | Prisma.OrgApplicationScalarFieldEnum[]
+}
+
+/**
+ * User.orgMembers
+ */
+export type User$orgMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrgMember
+   */
+  select?: Prisma.OrgMemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrgMember
+   */
+  omit?: Prisma.OrgMemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrgMemberInclude<ExtArgs> | null
+  where?: Prisma.OrgMemberWhereInput
+  orderBy?: Prisma.OrgMemberOrderByWithRelationInput | Prisma.OrgMemberOrderByWithRelationInput[]
+  cursor?: Prisma.OrgMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrgMemberScalarFieldEnum | Prisma.OrgMemberScalarFieldEnum[]
 }
 
 /**

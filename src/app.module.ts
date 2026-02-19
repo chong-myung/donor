@@ -14,6 +14,7 @@ import { DonationsModule } from './modules/donations.module';
 import { MeModule } from './modules/me.module';
 import { OrgModule } from './modules/org.module';
 import { AdminModule } from './modules/admin.module';
+import { OrgApplicationsModule } from './modules/org-applications.module';
 
 @Module({
     imports: [
@@ -31,6 +32,7 @@ import { AdminModule } from './modules/admin.module';
         MeModule,
         OrgModule,
         AdminModule,
+        OrgApplicationsModule,
     ],
     controllers: [],
     providers: [

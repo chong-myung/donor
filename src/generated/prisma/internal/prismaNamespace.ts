@@ -392,7 +392,9 @@ export const ModelName = {
   ProjectMedia: 'ProjectMedia',
   FavoriteProject: 'FavoriteProject',
   GroupCode: 'GroupCode',
-  CommonCode: 'CommonCode'
+  CommonCode: 'CommonCode',
+  OrgApplication: 'OrgApplication',
+  OrgMember: 'OrgMember'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -408,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "organization" | "project" | "beneficiary" | "donation" | "projectMedia" | "favoriteProject" | "groupCode" | "commonCode"
+    modelProps: "user" | "organization" | "project" | "beneficiary" | "donation" | "projectMedia" | "favoriteProject" | "groupCode" | "commonCode" | "orgApplication" | "orgMember"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1006,6 +1008,138 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OrgApplication: {
+      payload: Prisma.$OrgApplicationPayload<ExtArgs>
+      fields: Prisma.OrgApplicationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OrgApplicationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgApplicationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OrgApplicationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgApplicationPayload>
+        }
+        findFirst: {
+          args: Prisma.OrgApplicationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgApplicationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OrgApplicationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgApplicationPayload>
+        }
+        findMany: {
+          args: Prisma.OrgApplicationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgApplicationPayload>[]
+        }
+        create: {
+          args: Prisma.OrgApplicationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgApplicationPayload>
+        }
+        createMany: {
+          args: Prisma.OrgApplicationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.OrgApplicationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgApplicationPayload>
+        }
+        update: {
+          args: Prisma.OrgApplicationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgApplicationPayload>
+        }
+        deleteMany: {
+          args: Prisma.OrgApplicationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OrgApplicationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.OrgApplicationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgApplicationPayload>
+        }
+        aggregate: {
+          args: Prisma.OrgApplicationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrgApplication>
+        }
+        groupBy: {
+          args: Prisma.OrgApplicationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrgApplicationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OrgApplicationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrgApplicationCountAggregateOutputType> | number
+        }
+      }
+    }
+    OrgMember: {
+      payload: Prisma.$OrgMemberPayload<ExtArgs>
+      fields: Prisma.OrgMemberFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OrgMemberFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgMemberPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OrgMemberFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgMemberPayload>
+        }
+        findFirst: {
+          args: Prisma.OrgMemberFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgMemberPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OrgMemberFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgMemberPayload>
+        }
+        findMany: {
+          args: Prisma.OrgMemberFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgMemberPayload>[]
+        }
+        create: {
+          args: Prisma.OrgMemberCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgMemberPayload>
+        }
+        createMany: {
+          args: Prisma.OrgMemberCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.OrgMemberDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgMemberPayload>
+        }
+        update: {
+          args: Prisma.OrgMemberUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgMemberPayload>
+        }
+        deleteMany: {
+          args: Prisma.OrgMemberDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OrgMemberUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.OrgMemberUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrgMemberPayload>
+        }
+        aggregate: {
+          args: Prisma.OrgMemberAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrgMember>
+        }
+        groupBy: {
+          args: Prisma.OrgMemberGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrgMemberGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OrgMemberCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrgMemberCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1063,12 +1197,15 @@ export const OrganizationScalarFieldEnum = {
   orgId: 'orgId',
   name: 'name',
   registrationNumber: 'registrationNumber',
+  description: 'description',
+  logoUrl: 'logoUrl',
   walletAddress: 'walletAddress',
   contactInfo: 'contactInfo',
-  userId: 'userId',
+  isVerified: 'isVerified',
   planType: 'planType',
   status: 'status',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
@@ -1169,6 +1306,36 @@ export const CommonCodeScalarFieldEnum = {
 export type CommonCodeScalarFieldEnum = (typeof CommonCodeScalarFieldEnum)[keyof typeof CommonCodeScalarFieldEnum]
 
 
+export const OrgApplicationScalarFieldEnum = {
+  applicationId: 'applicationId',
+  userId: 'userId',
+  orgName: 'orgName',
+  registrationNumber: 'registrationNumber',
+  registrationDocUrl: 'registrationDocUrl',
+  contactName: 'contactName',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  description: 'description',
+  status: 'status',
+  rejectedReason: 'rejectedReason',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OrgApplicationScalarFieldEnum = (typeof OrgApplicationScalarFieldEnum)[keyof typeof OrgApplicationScalarFieldEnum]
+
+
+export const OrgMemberScalarFieldEnum = {
+  orgMemberId: 'orgMemberId',
+  orgId: 'orgId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+} as const
+
+export type OrgMemberScalarFieldEnum = (typeof OrgMemberScalarFieldEnum)[keyof typeof OrgMemberScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1199,6 +1366,8 @@ export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnu
 export const OrganizationOrderByRelevanceFieldEnum = {
   name: 'name',
   registrationNumber: 'registrationNumber',
+  description: 'description',
+  logoUrl: 'logoUrl',
   walletAddress: 'walletAddress',
   contactInfo: 'contactInfo',
   planType: 'planType',
@@ -1269,6 +1438,28 @@ export const CommonCodeOrderByRelevanceFieldEnum = {
 } as const
 
 export type CommonCodeOrderByRelevanceFieldEnum = (typeof CommonCodeOrderByRelevanceFieldEnum)[keyof typeof CommonCodeOrderByRelevanceFieldEnum]
+
+
+export const OrgApplicationOrderByRelevanceFieldEnum = {
+  orgName: 'orgName',
+  registrationNumber: 'registrationNumber',
+  registrationDocUrl: 'registrationDocUrl',
+  contactName: 'contactName',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  description: 'description',
+  status: 'status',
+  rejectedReason: 'rejectedReason'
+} as const
+
+export type OrgApplicationOrderByRelevanceFieldEnum = (typeof OrgApplicationOrderByRelevanceFieldEnum)[keyof typeof OrgApplicationOrderByRelevanceFieldEnum]
+
+
+export const OrgMemberOrderByRelevanceFieldEnum = {
+  role: 'role'
+} as const
+
+export type OrgMemberOrderByRelevanceFieldEnum = (typeof OrgMemberOrderByRelevanceFieldEnum)[keyof typeof OrgMemberOrderByRelevanceFieldEnum]
 
 
 
@@ -1422,6 +1613,8 @@ export type GlobalOmitConfig = {
   favoriteProject?: Prisma.FavoriteProjectOmit
   groupCode?: Prisma.GroupCodeOmit
   commonCode?: Prisma.CommonCodeOmit
+  orgApplication?: Prisma.OrgApplicationOmit
+  orgMember?: Prisma.OrgMemberOmit
 }
 
 /* Types for Logging */
