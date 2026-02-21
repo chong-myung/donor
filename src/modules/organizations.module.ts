@@ -14,6 +14,6 @@ import { PrismaModule } from '../infrastructure/persistence/prisma/prisma.module
             useClass: OrganizationRepository,
         },
     ],
-    exports: [OrganizationService],
+    exports: [OrganizationService, 'IOrganizationsRepository'],
 })
 export class OrganizationsModule {}
